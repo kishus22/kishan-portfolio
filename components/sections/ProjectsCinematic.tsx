@@ -13,8 +13,8 @@ export default function ProjectsCinematic() {
           — Act II —
         </p>
         <CinematicText
-          glitch
-          className="mt-4 font-[family-name:var(--font-orbitron)] text-4xl font-black tracking-widest md:text-6xl movie-title-gradient"
+          className="mt-4 font-[family-name:var(--font-orbitron)] text-4xl font-black tracking-widest md:text-6xl text-white uppercase"
+          style={{ textShadow: "0 0 20px rgba(0, 212, 255, 0.25)" }}
         >
           MISSION ARCHIVE
         </CinematicText>

@@ -35,8 +35,13 @@ export default function ProjectMission({ project, index }: ProjectMissionProps) 
       ref={ref}
       id={index === 0 ? "projects" : undefined}
       data-mission-pin
-      className="scene-snap relative min-h-[100svh] w-full"
+      className="scene-snap relative min-h-[70vh] lg:min-h-[85vh] w-full flex items-center justify-center py-12 md:py-16"
     >
+      {/* Absolute positioned mission number at top right of card */}
+      <div className="absolute top-8 right-8 font-[family-name:var(--font-orbitron)] text-[80px] font-black text-white select-none pointer-events-none opacity-[0.08] z-10">
+        {project.chapter}
+      </div>
+
       <motion.div
         style={{ scale: posterScale }}
         className={`absolute inset-0 bg-gradient-to-br ${project.gradient}`}
@@ -50,7 +55,7 @@ export default function ProjectMission({ project, index }: ProjectMissionProps) 
       <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-black/80" />
       <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/60" />
 
-      <div className="relative z-10 flex min-h-[100svh] items-center px-6 py-24">
+      <div className="relative z-10 w-full px-6 md:px-12">
         <div
           className={`mx-auto grid w-full max-w-7xl items-center gap-12 lg:grid-cols-2 ${
             reversed ? "lg:[&>*:first-child]:order-2" : ""
@@ -58,7 +63,7 @@ export default function ProjectMission({ project, index }: ProjectMissionProps) 
         >
           <motion.div
             style={{ scale: posterScale, y: posterY }}
-            className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/10 shadow-[0_0_100px_rgba(0,255,255,0.12)] lg:aspect-auto lg:min-h-[480px]"
+            className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-[rgba(0,212,255,0.15)] shadow-[0_0_80px_rgba(0,212,255,0.08)] lg:aspect-auto lg:min-h-[440px]"
           >
             <Image
               src={project.image}
@@ -66,7 +71,17 @@ export default function ProjectMission({ project, index }: ProjectMissionProps) 
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover"
+              style={{ filter: "brightness(0.5) contrast(1.1) saturate(0.7)" }}
               priority={index < 2}
+            />
+
+            {/* Cinematic Marvel-style cyan/purple color grading overlay */}
+            <div 
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background: "linear-gradient(135deg, rgba(0,212,255,0.08) 0%, rgba(123,47,255,0.08) 100%)",
+                mixBlendMode: "color"
+              }}
             />
 
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-cyan-950/30 mix-blend-multiply" />
@@ -78,13 +93,11 @@ export default function ProjectMission({ project, index }: ProjectMissionProps) 
             </div>
           </motion.div>
 
-          <motion.div style={{ opacity: contentOpacity, scale: contentScale }}>
-            <ChapterIntro chapter={project.chapter} codename={project.codename} />
-
+          <motion.div style={{ opacity: contentOpacity, scale: contentScale }} className="flex flex-col justify-center">
             <CinematicText
               as="h3"
               delay={0.1}
-              className="font-[family-name:var(--font-orbitron)] text-3xl font-black leading-tight text-white md:text-5xl"
+              className="font-[family-name:var(--font-orbitron)] text-2xl font-black leading-tight text-white sm:text-3xl md:text-4xl lg:text-5xl"
             >
               {project.title}
             </CinematicText>
@@ -114,7 +127,7 @@ export default function ProjectMission({ project, index }: ProjectMissionProps) 
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.55, duration: 0.9 }}
-              className="mt-6 max-w-xl leading-relaxed text-gray-400"
+              className="mt-6 max-w-xl leading-relaxed text-gray-400 whitespace-pre-line"
             >
               {project.description}
             </motion.p>

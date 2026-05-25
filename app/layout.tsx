@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Orbitron, Rajdhani } from "next/font/google";
+import { Orbitron, Rajdhani, Fira_Code, Inter } from "next/font/google";
 import "./globals.css";
 
 const orbitron = Orbitron({
@@ -12,6 +12,18 @@ const rajdhani = Rajdhani({
   variable: "--font-rajdhani",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
+});
+
+const firaCode = Fira_Code({
+  variable: "--font-fira-code",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -28,7 +40,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${orbitron.variable} ${rajdhani.variable} h-full scroll-smooth`}
+      className={`${orbitron.variable} ${rajdhani.variable} ${firaCode.variable} ${inter.variable} h-full scroll-smooth`}
     >
       <body className="min-h-full bg-black text-white antialiased">
         {children}

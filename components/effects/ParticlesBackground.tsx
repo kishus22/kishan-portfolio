@@ -1,11 +1,27 @@
 "use client";
 
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useEffect, useState } from "react";
 import Particles from "react-tsparticles";
 import type { Engine } from "tsparticles-engine";
 import { loadSlim } from "tsparticles-slim";
 
 export default function ParticlesBackground() {
+  const [ready, setReady] = useState(false);
+  const [particleCount, setParticleCount] = useState(60);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setParticleCount(window.innerWidth < 768 ? 20 : 60);
+    }
+
+    // Defer initialization until after hero is fully painted
+    const timer = setTimeout(() => {
+      setReady(true);
+    }, 3500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   const particlesInit = useCallback(async (engine: Engine) => {
     await loadSlim(engine);
   }, []);
@@ -17,7 +33,7 @@ export default function ParticlesBackground() {
       detectRetina: true,
       background: { color: { value: "transparent" } },
       particles: {
-        number: { value: 80, density: { enable: true } },
+        number: { value: particleCount, density: { enable: true } },
         color: { value: ["#00ffff", "#a855f7", "#ec4899"] },
         links: {
           enable: true,
@@ -47,8 +63,10 @@ export default function ParticlesBackground() {
         },
       },
     }),
-    [],
+    [particleCount],
   );
+
+  if (!ready) return null;
 
   return (
     <Particles

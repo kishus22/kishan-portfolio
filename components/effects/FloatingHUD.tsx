@@ -3,10 +3,9 @@
 import { motion } from "framer-motion";
 
 const PANELS = [
-  { label: "AI SYSTEM ACTIVE", position: "top-36 left-8", delay: 0 },
-  { label: "CLASSIFIED MISSION", position: "top-44 right-8", delay: 0.4 },
-  { label: "TARGET LOCKED", position: "bottom-36 left-10", delay: 0.8 },
-  { label: "AI CORE SYNC", position: "bottom-32 right-10", delay: 1.2 },
+  { label: "SYSTEM ACTIVE", position: "top-12 left-6", delay: 0 },
+  { label: "SECURE LINK", position: "top-20 right-6", delay: 0.5 },
+  { label: "CORE SYNCED", position: "bottom-12 right-6", delay: 1.0 },
 ] as const;
 
 export default function FloatingHUD() {
@@ -17,18 +16,18 @@ export default function FloatingHUD() {
           key={panel.label}
           initial={{ opacity: 0, x: panel.position.includes("right") ? 20 : -20 }}
           animate={{
-            opacity: [0.4, 0.85, 0.4],
-            y: [0, -8, 0],
+            opacity: [0.3, 0.7, 0.3],
+            y: [0, -6, 0],
             x: 0,
           }}
           transition={{
             opacity: { duration: 4, repeat: Infinity, delay: panel.delay },
-            y: { duration: 5 + panel.delay, repeat: Infinity, ease: "easeInOut" },
-            x: { delay: 4 + panel.delay, duration: 0.6 },
+            y: { duration: 6 + panel.delay, repeat: Infinity, ease: "easeInOut" },
+            x: { delay: 3 + panel.delay, duration: 0.6 },
           }}
-          className={`absolute ${panel.position} rounded border border-cyan-400/25 bg-black/50 px-3 py-2 font-mono text-[9px] uppercase tracking-[0.35em] text-cyan-400/80 backdrop-blur-md`}
+          className={`absolute ${panel.position} rounded border border-cyan-400/20 bg-black/60 px-2 py-1 font-mono text-[8px] uppercase tracking-[0.25em] text-cyan-400/80 backdrop-blur-md`}
         >
-          <span className="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_6px_#00ffff]" />
+          <span className="mr-1.5 inline-block h-1 w-1 rounded-full bg-cyan-400 shadow-[0_0_6px_#00ffff]" />
           {panel.label}
         </motion.div>
       ))}

@@ -30,8 +30,7 @@ export const PROJECTS = [
     title: "Fraud Detection in UPI Transactions",
     subtitle: "Machine Learning · Financial Intelligence",
     tagline: "Neural surveillance over every transaction pulse.",
-    description:
-      "Real-time fraud detection pipeline for UPI transactions — supervised ML models, anomaly scoring, and cinematic-grade financial threat intelligence.",
+    description: "Neural surveillance over every transaction pulse.\nCNN + ensemble ML detecting fraud across 10,000+ UPI records in real-time.",
     tech: ["Python", "Scikit-learn", "Pandas", "XGBoost"],
     theme: "fraud" as ProjectTheme,
     gradient: "from-emerald-950 via-cyan-950 to-black",
@@ -44,8 +43,7 @@ export const PROJECTS = [
     title: "Criminal Face Detection",
     subtitle: "Machine Learning · Biometric Intelligence",
     tagline: "Scan. Match. Neutralize threats in milliseconds.",
-    description:
-      "AI-powered facial recognition for criminal identification with OpenCV preprocessing, deep embeddings, and tactical HUD-style vision overlays.",
+    description: "Scan. Match. Neutralize threats in milliseconds.\nDeep face embeddings + OpenCV tactical overlays for criminal identification.",
     tech: ["Python", "OpenCV", "TensorFlow", "CNN"],
     theme: "criminal-face" as ProjectTheme,
     gradient: "from-slate-950 via-purple-950 to-black",
@@ -58,8 +56,7 @@ export const PROJECTS = [
     title: "Real-Time Face Animation",
     subtitle: "Computer Vision · Motion Capture AI",
     tagline: "Holographic facial mesh in live cinematic motion.",
-    description:
-      "Real-time face animation with AI facial mesh tracking, motion capture visuals, and holographic rendering pipelines.",
+    description: "Holographic facial mesh. Live. Cinematic. Zero latency.\nMediaPipe + OpenCV real-time face animation with motion capture precision.",
     tech: ["Python", "OpenCV", "MediaPipe", "Deep Learning"],
     theme: "face-animation" as ProjectTheme,
     gradient: "from-indigo-950 via-cyan-950 to-black",
@@ -72,8 +69,7 @@ export const PROJECTS = [
     title: "Face Swap Detection",
     subtitle: "Deepfake Analysis · Identity Defense",
     tagline: "Expose synthetic faces before they breach reality.",
-    description:
-      "Deepfake and face-swap detection using neural networks, holographic scan effects, and futuristic identity verification systems.",
+    description: "Expose synthetic faces before they breach reality.\nInsightFace + TensorFlow multi-stage deepfake detection pipeline.",
     tech: ["Python", "Deep Learning", "TensorFlow", "CNN"],
     theme: "face-swap" as ProjectTheme,
     gradient: "from-fuchsia-950 via-purple-950 to-black",
@@ -86,8 +82,7 @@ export const PROJECTS = [
     title: "Online Birth Certificate Database System",
     subtitle: "Full-Stack · Digital Identity",
     tagline: "Secure holographic records for the next civilization.",
-    description:
-      "Futuristic government-grade birth certificate platform with secure uploads, verification workflows, and holographic database UI.",
+    description: "Secure holographic records for the next civilization.\nFull-stack React + MongoDB government-grade identity verification system.",
     tech: ["React", "Next.js", "Node.js", "MongoDB"],
     theme: "birth-cert" as ProjectTheme,
     gradient: "from-teal-950 via-cyan-950 to-black",
@@ -100,8 +95,7 @@ export const PROJECTS = [
     title: "FinTech API Automation",
     subtitle: "API Automation · Cyber FinTech",
     tagline: "Glowing data pipelines powering financial automation.",
-    description:
-      "End-to-end FinTech API automation framework with real-time data flow visuals, test orchestration, and CI-ready cyber dashboards.",
+    description: "Glowing data pipelines. Automated. Unstoppable.\nPython REST API automation framework with CI-ready test orchestration.",
     tech: ["Python", "REST API", "Pytest", "Automation"],
     theme: "fintech" as ProjectTheme,
     gradient: "from-blue-950 via-cyan-950 to-black",

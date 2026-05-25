@@ -13,8 +13,10 @@
 @theme inline {
   --color-background: var(--bg);
   --color-foreground: var(--fg);
-  --font-sans: var(--font-rajdhani);
+  --font-sans: var(--font-inter);
   --font-display: var(--font-orbitron);
+  --font-fira: var(--font-fira-code);
+  --font-rajdhani: var(--font-rajdhani);
 }
 
 html {
@@ -24,8 +26,58 @@ html {
 body {
   background: var(--bg);
   color: var(--fg);
-  font-family: var(--font-rajdhani), system-ui, sans-serif;
+  font-family: var(--font-inter), system-ui, sans-serif;
   overflow-x: hidden;
+}
+
+/* Cinematic Utility Classes */
+.h1-cinematic {
+  font-family: var(--font-orbitron), sans-serif;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  font-size: clamp(72px, 12vw, 160px);
+  text-shadow: 0 0 40px #00D4FF, 0 0 80px #00D4FF80;
+}
+
+.h2-cinematic {
+  font-family: var(--font-orbitron), sans-serif;
+  font-weight: 700;
+  font-size: clamp(32px, 6vw, 64px);
+  color: #fff;
+  text-shadow: 0 0 30px rgba(0, 212, 255, 0.6);
+}
+
+.h3-cinematic {
+  font-family: var(--font-orbitron), sans-serif;
+  font-weight: 600;
+  font-size: clamp(24px, 4vw, 48px);
+  color: #fff;
+}
+
+.label-cinematic {
+  font-family: var(--font-fira-code), monospace;
+  font-weight: 400;
+  font-size: clamp(11px, 2vw, 13px);
+  color: #00ffff;
+  letter-spacing: 0.15em;
+}
+
+.body-cinematic {
+  font-family: var(--font-inter), sans-serif;
+  font-weight: 400;
+  font-size: clamp(14px, 2.5vw, 16px);
+  color: #8BA3B8;
+}
+
+/* prefers-reduced-motion implementation */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-delay: 0s !important;
+    animation-duration: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0s !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 @media (hover: hover) and (pointer: fine) {

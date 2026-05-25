@@ -1,55 +1,35 @@
-export type SkillItem = {
-  name: string;
-  icon: string;
+export type SkillCategory = {
+  category: string;
+  skills: string[];
 };
 
-export const SKILLS: SkillItem[] = [
+export const SKILL_CATEGORIES: SkillCategory[] = [
   {
-    name: "Python",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@2.16.0/icons/python/python-original.svg",
+    category: "Languages",
+    skills: ["Python", "JavaScript", "SQL"],
   },
   {
-    name: "SQL",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@2.16.0/icons/mysql/mysql-original.svg",
+    category: "Frontend",
+    skills: ["React.js", "HTML5", "CSS3", "Tailwind CSS"],
   },
   {
-    name: "Machine Learning",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@2.16.0/icons/tensorflow/tensorflow-original.svg",
+    category: "Backend",
+    skills: ["Node.js", "Flask", "FastAPI", "Django", "REST APIs"],
   },
   {
-    name: "Deep Learning",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@2.16.0/icons/pytorch/pytorch-original.svg",
+    category: "Automation & Testing",
+    skills: ["Pytest", "Postman", "API Testing", "Unit Testing", "Regression Testing"],
   },
   {
-    name: "OpenCV",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@2.16.0/icons/opencv/opencv-original.svg",
+    category: "Machine Learning",
+    skills: ["TensorFlow", "Scikit-learn", "OpenCV", "Computer Vision", "Pandas", "NumPy"],
   },
   {
-    name: "TensorFlow",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@2.16.0/icons/tensorflow/tensorflow-original.svg",
+    category: "Databases",
+    skills: ["MySQL", "PostgreSQL", "MongoDB"],
   },
   {
-    name: "Cybersecurity",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@2.16.0/icons/linux/linux-original.svg",
-  },
-  {
-    name: "React",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@2.16.0/icons/react/react-original.svg",
-  },
-  {
-    name: "Next.js",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@2.16.0/icons/nextjs/nextjs-original.svg",
-  },
-  {
-    name: "AI/ML",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@2.16.0/icons/pandas/pandas-original.svg",
-  },
-  {
-    name: "Data Science",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@2.16.0/icons/numpy/numpy-original.svg",
-  },
-  {
-    name: "API Automation",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@2.16.0/icons/fastapi/fastapi-original.svg",
+    category: "DevOps & Tools",
+    skills: ["Git", "Docker", "GitHub Actions", "CI/CD", "JIRA", "VS Code"],
   },
 ];

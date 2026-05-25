@@ -11,7 +11,22 @@ export default function CustomCursor() {
   const ringX = useSpring(0, { stiffness: 120, damping: 18 });
   const ringY = useSpring(0, { stiffness: 120, damping: 18 });
 
+  const [isTouchDevice, setIsTouchDevice] = useState(true);
+
   useEffect(() => {
+    const checkTouch = () => {
+      return (
+        "ontouchstart" in window ||
+        navigator.maxTouchPoints > 0 ||
+        (window.matchMedia && window.matchMedia("(any-pointer: coarse)").matches)
+      );
+    };
+    setIsTouchDevice(checkTouch());
+  }, []);
+
+  useEffect(() => {
+    if (isTouchDevice) return;
+
     const onMove = (e: MouseEvent) => {
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
@@ -38,9 +53,9 @@ export default function CustomCursor() {
       window.removeEventListener("mouseover", onOver);
       document.body.removeEventListener("mouseleave", onLeave);
     };
-  }, [cursorX, cursorY, ringX, ringY]);
+  }, [cursorX, cursorY, ringX, ringY, isTouchDevice]);
 
-  if (!visible) return null;
+  if (isTouchDevice || !visible) return null;
 
   return (
     <>

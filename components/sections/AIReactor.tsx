@@ -41,8 +41,8 @@ export default function AIReactor() {
             — Quantum Core —
           </p>
           <CinematicText
-            glitch
-            className="mt-4 font-[family-name:var(--font-orbitron)] text-4xl font-black md:text-5xl movie-title-gradient"
+            className="mt-4 font-[family-name:var(--font-orbitron)] text-4xl font-black md:text-5xl text-white uppercase tracking-widest"
+            style={{ textShadow: "0 0 20px rgba(0, 212, 255, 0.25)" }}
           >
             AI REACTOR
           </CinematicText>

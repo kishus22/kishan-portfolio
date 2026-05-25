@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import type { ReactNode } from "react";
+import type { ReactNode, CSSProperties } from "react";
 
 type CinematicTextProps = {
   children: ReactNode;
@@ -9,6 +9,7 @@ type CinematicTextProps = {
   className?: string;
   glitch?: boolean;
   delay?: number;
+  style?: CSSProperties;
 };
 
 export default function CinematicText({
@@ -17,6 +18,7 @@ export default function CinematicText({
   className = "",
   glitch = false,
   delay = 0,
+  style,
 }: CinematicTextProps) {
   return (
     <motion.div
@@ -30,7 +32,7 @@ export default function CinematicText({
       transition={{ duration: 1.2, delay, ease: [0.22, 1, 0.36, 1] }}
       className={glitch ? "glitch-text" : ""}
     >
-      <Tag className={className}>{children}</Tag>
+      <Tag className={className} style={style}>{children}</Tag>
     </motion.div>
   );
 }

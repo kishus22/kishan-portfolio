@@ -18,8 +18,11 @@ export default function Education() {
           <p className="font-[family-name:var(--font-orbitron)] text-xs uppercase tracking-[0.6em] text-cyan-400">
             — Act IV —
           </p>
-          <h2 className="mt-4 font-[family-name:var(--font-orbitron)] text-4xl font-black md:text-5xl">
-            <span className="movie-title-gradient">EDUCATION</span>
+          <h2 
+            className="mt-4 font-[family-name:var(--font-orbitron)] text-4xl font-black md:text-5xl uppercase tracking-wider text-white"
+            style={{ textShadow: "0 0 20px rgba(0, 212, 255, 0.25)" }}
+          >
+            EDUCATION
           </h2>
         </motion.div>
 
@@ -33,7 +36,7 @@ export default function Education() {
           />
           <motion.div
             animate={{ boxShadow: ["0 0 20px #00ffff", "0 0 40px #00ffff", "0 0 20px #00ffff"] }}
-            transition={{ duration: 2, repeat: Infinity }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             className="absolute left-4 top-12 hidden h-6 w-6 rounded-full border-2 border-cyan-400 bg-black md:block"
           />
 
