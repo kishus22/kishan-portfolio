@@ -8,7 +8,7 @@ import CinematicText from "@/components/ui/CinematicText";
 export default function ProjectsCinematic() {
   return (
     <div className="relative">
-      <div className="scene-snap relative z-20 px-6 pt-32 pb-8 text-center">
+      <div className="scene-snap relative z-20 px-6 pt-12 pb-6 md:pt-20 md:pb-6 text-center">
         <p className="font-[family-name:var(--font-orbitron)] text-xs uppercase tracking-[0.6em] text-cyan-400">
           — Act II —
         </p>

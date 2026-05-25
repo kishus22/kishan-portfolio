@@ -54,6 +54,16 @@ export default function Hero() {
       id="home"
       className="scene-snap relative z-10 h-[100vh] min-h-[100vh] w-full overflow-hidden"
     >
+      {/* Top-left coordinate display in hero */}
+      <div className="absolute top-24 left-8 hidden md:block opacity-60 font-[family-name:var(--font-fira-code)] text-[11px] text-[rgba(0,212,255,0.7)] bg-[rgba(0,0,0,0.4)] backdrop-blur-[8px] border border-[rgba(0,212,255,0.2)] rounded px-[10px] py-[6px] uppercase tracking-widest z-20">
+        LAT 14.8° LON 74.9°
+      </div>
+
+      {/* One system status panel in hero */}
+      <div className="absolute top-24 right-8 hidden md:block opacity-60 font-[family-name:var(--font-fira-code)] text-[11px] text-[rgba(0,212,255,0.7)] bg-[rgba(0,0,0,0.4)] backdrop-blur-[8px] border border-[rgba(0,212,255,0.2)] rounded px-[10px] py-[6px] uppercase tracking-widest z-20">
+        AI CORE: ONLINE
+      </div>
+
       <motion.div
         style={{ scale, opacity, y, rotateX, transformPerspective: 1200 }}
         className="relative flex h-full w-full flex-col items-center justify-center px-6"
@@ -72,7 +82,7 @@ export default function Hero() {
               KISHAN S
             </h1>
 
-            <p className="mt-6 font-[family-name:var(--font-orbitron)] text-xs uppercase tracking-[0.2em] text-cyan-300 md:text-base">
+            <p className="mt-6 font-[family-name:var(--font-inter)] text-[16px] text-[#8BA3B8] tracking-[0.05em]">
               AI Engineer · Computer Vision · ML Developer
             </p>
 

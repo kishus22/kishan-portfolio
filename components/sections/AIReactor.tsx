@@ -20,7 +20,7 @@ export default function AIReactor() {
   return (
     <section
       id="ai-reactor"
-      className="scene-snap relative z-10 overflow-hidden px-6 py-32"
+      className="scene-snap relative z-10 overflow-hidden px-6 py-12 md:py-20"
       data-parallax
     >
       <div className="absolute inset-0">

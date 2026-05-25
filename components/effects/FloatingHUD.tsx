@@ -3,9 +3,8 @@
 import { motion } from "framer-motion";
 
 const PANELS = [
-  { label: "SYSTEM ACTIVE", position: "top-12 left-6", delay: 0 },
-  { label: "SECURE LINK", position: "top-20 right-6", delay: 0.5 },
-  { label: "CORE SYNCED", position: "bottom-12 right-6", delay: 1.0 },
+  { label: "SYS_ACTIVE", position: "top-12 left-6", delay: 0 },
+  { label: "SECURE_LINK", position: "top-20 right-6", delay: 0.5 },
 ] as const;
 
 export default function FloatingHUD() {
@@ -16,16 +15,15 @@ export default function FloatingHUD() {
           key={panel.label}
           initial={{ opacity: 0, x: panel.position.includes("right") ? 20 : -20 }}
           animate={{
-            opacity: [0.3, 0.7, 0.3],
+            opacity: 0.6,
             y: [0, -6, 0],
             x: 0,
           }}
           transition={{
-            opacity: { duration: 4, repeat: Infinity, delay: panel.delay },
             y: { duration: 6 + panel.delay, repeat: Infinity, ease: "easeInOut" },
             x: { delay: 3 + panel.delay, duration: 0.6 },
           }}
-          className={`absolute ${panel.position} rounded border border-cyan-400/20 bg-black/60 px-2 py-1 font-mono text-[8px] uppercase tracking-[0.25em] text-cyan-400/80 backdrop-blur-md`}
+          className={`absolute ${panel.position} rounded-[4px] border border-[rgba(0,212,255,0.2)] bg-[rgba(0,0,0,0.4)] backdrop-blur-[8px] px-[10px] py-[6px] font-[family-name:var(--font-fira-code)] text-[11px] uppercase tracking-[0.25em] text-[rgba(0,212,255,0.7)]`}
         >
           <span className="mr-1.5 inline-block h-1 w-1 rounded-full bg-cyan-400 shadow-[0_0_6px_#00ffff]" />
           {panel.label}

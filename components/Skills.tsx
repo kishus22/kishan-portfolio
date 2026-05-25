@@ -7,7 +7,11 @@ import HolographicCard from "@/components/ui/HolographicCard";
 export default function Skills() {
   return (
     <section id="skills" className="scene-snap relative z-10 px-6 py-20">
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-7xl relative">
+        {/* One small HUD in skills section */}
+        <div className="absolute -top-4 right-6 hidden md:block opacity-60 font-[family-name:var(--font-fira-code)] text-[10px] text-[rgba(0,212,255,0.7)] bg-[rgba(0,0,0,0.4)] backdrop-blur-[8px] border border-[rgba(0,212,255,0.2)] rounded px-[10px] py-[6px] uppercase tracking-widest">
+          SECURE_SYNC: OK
+        </div>
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}

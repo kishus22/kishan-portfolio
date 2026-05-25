@@ -97,7 +97,7 @@ export default function ProjectMission({ project, index }: ProjectMissionProps) 
             <CinematicText
               as="h3"
               delay={0.1}
-              className="font-[family-name:var(--font-orbitron)] text-2xl font-black leading-tight text-white sm:text-3xl md:text-4xl lg:text-5xl"
+              className="font-[family-name:var(--font-orbitron)] text-5xl md:text-6xl font-bold text-white hover:[text-shadow:0_0_20px_rgba(0,212,255,0.6)] transition-all duration-300 leading-tight"
             >
               {project.title}
             </CinematicText>
@@ -122,15 +122,21 @@ export default function ProjectMission({ project, index }: ProjectMissionProps) 
               &ldquo;{project.tagline}&rdquo;
             </motion.p>
 
-            <motion.p
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.55, duration: 0.9 }}
-              className="mt-6 max-w-xl leading-relaxed text-gray-400 whitespace-pre-line"
-            >
-              {project.description}
-            </motion.p>
+            <div className="mt-6 max-w-xl flex flex-col gap-2">
+              {(() => {
+                const lines = project.description.split("\n");
+                return (
+                  <>
+                    <p className="font-[family-name:var(--font-inter)] text-[15px] text-[#E8F4FD] italic leading-relaxed">
+                      {lines[0]}
+                    </p>
+                    <p className="font-[family-name:var(--font-fira-code)] text-[13px] text-[#8BA3B8] leading-relaxed">
+                      {lines[1]}
+                    </p>
+                  </>
+                );
+              })()}
+            </div>
 
             <motion.div
               initial={{ opacity: 0 }}
