@@ -21,7 +21,7 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
     skills: ["Pytest", "Postman", "API Testing", "Unit Testing", "Regression Testing"],
   },
   {
-    category: "Machine Learning",
+    category: "Machine Learning & AI",
     skills: ["TensorFlow", "Scikit-learn", "OpenCV", "Computer Vision", "Pandas", "NumPy"],
   },
   {

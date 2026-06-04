@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Loader from "@/components/Loader";
 import Navbar from "@/components/Navbar";
@@ -16,6 +16,7 @@ import MouseGlow from "@/components/effects/MouseGlow";
 import CustomCursor from "@/components/effects/CustomCursor";
 import FloatingHUD from "@/components/effects/FloatingHUD";
 import SectionSeparator from "@/components/ui/SectionSeparator";
+import ParticleTunnel3D from "@/components/ParticleTunnel3D";
 import { useCinematicScroll } from "@/hooks/useCinematicScroll";
 
 function PortfolioContent() {
@@ -28,16 +29,17 @@ function PortfolioContent() {
       <MouseGlow />
       <FloatingHUD />
 
-      <main className="cinematic-scroll relative min-h-screen overflow-x-hidden bg-black text-white">
+      <main className="cinematic-scroll relative min-h-screen overflow-x-hidden bg-[#050505] text-white">
         <ParticlesBackground />
         <BackgroundEffects />
 
         <Navbar />
         <Hero />
-        <SectionSeparator />
-        <AIReactor />
+        <ParticleTunnel3D />
         <SectionSeparator />
         <ProjectsCinematic />
+        <SectionSeparator />
+        <AIReactor />
         <SectionSeparator />
         <Skills />
         <SectionSeparator />

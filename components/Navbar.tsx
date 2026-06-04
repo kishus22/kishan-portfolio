@@ -54,7 +54,7 @@ export default function Navbar() {
                 type="button"
                 data-cursor-hover
                 onClick={() => handleNav(link.href)}
-                className="relative text-[11px] uppercase tracking-widest text-gray-400 transition-colors hover:text-cyan-400 after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-cyan-400 after:transition-all hover:after:w-full"
+                className="relative text-[11px] uppercase tracking-widest text-[#8BA3B8] transition-colors hover:text-cyan-400 after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-cyan-400 after:transition-all hover:after:w-full"
               >
                 {link.label}
               </button>

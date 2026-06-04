@@ -30,7 +30,7 @@ export default function BackgroundEffects() {
         style={{ animationDelay: "3s" }}
       />
 
-      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/90" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/40 via-transparent to-[#020409]/95" />
       <div className="scanline absolute inset-0" />
     </div>
   );

@@ -8,10 +8,13 @@ import { loadSlim } from "tsparticles-slim";
 export default function ParticlesBackground() {
   const [ready, setReady] = useState(false);
   const [particleCount, setParticleCount] = useState(60);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setParticleCount(window.innerWidth < 768 ? 20 : 60);
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+      setParticleCount(mobile ? 20 : 60);
     }
 
     // Defer initialization until after hero is fully painted
@@ -49,7 +52,12 @@ export default function ParticlesBackground() {
           random: true,
           outModes: { default: "bounce" as const },
         },
-        opacity: { value: { min: 0.2, max: 0.6 } },
+        opacity: {
+          value: {
+            min: isMobile ? 0.25 : 0.15,
+            max: isMobile ? 0.6 : 0.3,
+          },
+        },
         size: { value: { min: 1, max: 3 } },
       },
       interactivity: {
@@ -63,7 +71,7 @@ export default function ParticlesBackground() {
         },
       },
     }),
-    [particleCount],
+    [particleCount, isMobile],
   );
 
   if (!ready) return null;

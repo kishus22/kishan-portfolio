@@ -89,7 +89,8 @@ export default function Contact() {
     <section 
       ref={containerRef}
       id="contact" 
-      className="scene-snap relative z-10 w-full min-h-[100vh] flex flex-col justify-between items-center overflow-hidden bg-black px-6"
+      data-scroll-reveal
+      className="scene-snap relative z-10 w-full min-h-[80vh] flex flex-col justify-between items-center overflow-hidden bg-black px-6"
     >
       {/* Reactor glow background */}
       <motion.div
@@ -100,7 +101,7 @@ export default function Contact() {
 
       {/* Top Label */}
       <div className="relative z-10 pt-16 text-center">
-        <p className="font-[family-name:var(--font-fira-code)] text-xs font-medium uppercase tracking-[0.2em] text-cyan-400">
+        <p className="font-[family-name:var(--font-fira-code)] text-[11px] font-medium uppercase tracking-[0.2em] text-cyan-400">
           FINAL ACT · CLASSIFIED SIGNAL
         </p>
       </div>

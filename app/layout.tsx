@@ -40,9 +40,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${orbitron.variable} ${rajdhani.variable} ${firaCode.variable} ${inter.variable} h-full scroll-smooth`}
+      className={`${orbitron.variable} ${rajdhani.variable} ${firaCode.variable} ${inter.variable} h-full scroll-smooth dark`}
+      style={{ colorScheme: "dark" }}
     >
-      <body className="min-h-full bg-black text-white antialiased">
+      <body className="min-h-full bg-[#050505] text-white antialiased">
         {children}
       </body>
     </html>

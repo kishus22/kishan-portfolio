@@ -1,34 +1,30 @@
 "use client";
 
 import Image from "next/image";
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import { TypeAnimation } from "react-type-animation";
-import { HERO_ROLES } from "@/lib/constants";
+import { HERO_TAGLINE } from "@/lib/constants";
 import { useLenisScroll } from "@/components/providers/LenisProvider";
 import ScrollIndicator from "@/components/ui/ScrollIndicator";
+const HeroBackground3D = dynamic(() => import("@/components/HeroBackground3D"), {
+  ssr: false,
+  loading: () => null,
+});
+const HeroFrameSequence = dynamic(() => import("@/components/HeroFrameSequence"), {
+  ssr: false,
+  loading: () => null,
+});
 
 function CyberRings() {
   return (
-    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-      {/* Pulse reactor core glow behind profile image */}
-      <motion.div
-        animate={{ opacity: [0.4, 1, 0.4] }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(0,212,255,0.25)_0%,transparent_70%)] blur-2xl md:h-80 md:w-80"
-      />
-      {/* Outer ring - slow rotate */}
-      <motion.div
-        animate={{ rotate: 360 }}
-        transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-        className="absolute h-[260px] w-[260px] md:h-[340px] md:w-[340px] rounded-full border border-cyan-400/20"
-        style={{ borderStyle: "dashed" }}
-      />
-      {/* Inner ring - fast rotate opposite direction */}
+    <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+      <div className="absolute h-64 w-64 rounded-full bg-[radial-gradient(circle,rgba(0,212,255,0.2)_0%,transparent_70%)] blur-2xl md:h-80 md:w-80" />
       <motion.div
         animate={{ rotate: -360 }}
-        transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-        className="absolute h-[210px] w-[210px] md:h-[280px] md:w-[280px] rounded-full border-2 border-cyan-400/40"
+        transition={{ duration: 14, repeat: Infinity, ease: "linear" }}
+        className="absolute hidden h-[180px] w-[180px] rounded-full border border-cyan-400/30 md:block md:h-[240px] md:w-[240px]"
       />
     </div>
   );
@@ -37,14 +33,8 @@ function CyberRings() {
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);
   const { scrollTo } = useLenisScroll();
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.88]);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const opacity = useTransform(scrollYProgress, [0, 0.85], [1, 0]);
-  const y = useTransform(scrollYProgress, [0, 1], [0, 150]);
-  const rotateX = useTransform(scrollYProgress, [0, 1], [0, 8]);
 
   const goProjects = () => scrollTo("#projects");
 
@@ -52,46 +42,63 @@ export default function Hero() {
     <section
       ref={ref}
       id="home"
-      className="scene-snap relative z-10 h-[100vh] min-h-[100vh] w-full overflow-hidden"
+      className="scene-snap relative flex h-[100vh] min-h-[100vh] flex-col overflow-hidden"
+      style={{ position: "relative" }}
     >
-      {/* Top-left coordinate display in hero */}
-      <div className="absolute top-24 left-8 hidden md:block opacity-60 font-[family-name:var(--font-fira-code)] text-[11px] text-[rgba(0,212,255,0.7)] bg-[rgba(0,0,0,0.4)] backdrop-blur-[8px] border border-[rgba(0,212,255,0.2)] rounded px-[10px] py-[6px] uppercase tracking-widest z-20">
-        LAT 14.8° LON 74.9°
+      {/* Layer 1: Frame Sequence Background */}
+      <div className="pointer-events-none absolute inset-0 z-[1]">
+        <Suspense fallback={null}>
+          <HeroFrameSequence />
+        </Suspense>
       </div>
 
-      {/* One system status panel in hero */}
-      <div className="absolute top-24 right-8 hidden md:block opacity-60 font-[family-name:var(--font-fira-code)] text-[11px] text-[rgba(0,212,255,0.7)] bg-[rgba(0,0,0,0.4)] backdrop-blur-[8px] border border-[rgba(0,212,255,0.2)] rounded px-[10px] py-[6px] uppercase tracking-widest z-20">
-        AI CORE: ONLINE
+      {/* Layer 2: Dark Overlay (45%) */}
+      <div className="pointer-events-none absolute inset-0 z-[2] bg-black/45" />
+
+      {/* Layer 3: Existing Glow / Particles */}
+      <div className="pointer-events-none absolute inset-0 z-[3]">
+        <Suspense fallback={null}>
+          <HeroBackground3D />
+        </Suspense>
+        
+        {/* Left Side Cyan Light Bloom */}
+        <div className="absolute left-0 top-[20%] w-[50%] h-[60%] rounded-full bg-[radial-gradient(circle,rgba(0,212,255,0.18)_0%,transparent_75%)] blur-[100px] -z-10" />
+
+        {/* Bottom Atmospheric Ground Fog */}
+        <div className="absolute bottom-0 inset-x-0 h-48 bg-gradient-to-t from-[#020409] via-[#020409]/60 to-transparent z-[4]" />
+
+        <div className="hero-vignette-top absolute inset-0" />
+        <div className="hero-vignette-bottom absolute inset-0" />
+        <div className="hero-vignette-sides absolute inset-0" />
       </div>
 
+      {/* Layer 4: Content */}
       <motion.div
-        style={{ scale, opacity, y, rotateX, transformPerspective: 1200 }}
-        className="relative flex h-full w-full flex-col items-center justify-center px-6"
+        style={{ opacity }}
+        className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 py-20"
       >
-        <div className="grid w-full max-w-7xl items-center gap-10 md:gap-16 lg:grid-cols-2">
+        <div className="flex w-full max-w-6xl flex-col items-center gap-10 sm:gap-12 lg:flex-row lg:items-center lg:justify-center lg:gap-14 xl:gap-16">
           <motion.div
-            initial={{ opacity: 0, x: -100, filter: "blur(16px)" }}
+            initial={{ opacity: 0, x: -40, filter: "blur(8px)" }}
             animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-            transition={{ delay: 2.5, duration: 1.2, ease: "easeOut" }}
-            className="order-2 text-center lg:order-1 lg:text-left"
+            transition={{ delay: 2.4, duration: 0.9, ease: "easeOut" }}
+            className="order-2 shrink-0 text-center lg:order-1 lg:text-left relative"
           >
-            <h1 
-              className="font-[family-name:var(--font-orbitron)] font-black tracking-[0.15em] text-white uppercase text-center lg:text-left leading-[1.05] [font-size:clamp(44px,8vw,68px)] lg:[font-size:clamp(64px,10vw,140px)] py-2"
-              style={{ textShadow: "0 0 20px rgba(0, 212, 255, 0.25)" }}
-            >
-              KISHAN S
-            </h1>
+            {/* Massive Volumetric Title Glow and environmental bloom */}
+            <div className="absolute -inset-x-36 -inset-y-16 bg-[radial-gradient(circle,rgba(0,212,255,0.28)_0%,transparent_75%)] blur-[80px] pointer-events-none -z-10 animate-breathe-glow" />
+            <div className="absolute -inset-x-20 -inset-y-10 bg-[radial-gradient(circle,rgba(168,85,247,0.18)_0%,transparent_75%)] blur-3xl pointer-events-none -z-10" />
 
-            <p className="mt-6 font-[family-name:var(--font-inter)] text-[16px] text-[#8BA3B8] tracking-[0.05em]">
-              AI Engineer · Computer Vision · ML Developer
+            <h1 className="h1-cinematic text-white whitespace-nowrap">KISHAN&nbsp;S</h1>
+            <p className="hero-subtitle mx-auto mt-6 max-w-xl text-center lg:mx-0 lg:text-left">
+              {HERO_TAGLINE}
             </p>
 
-            <div className="mt-10 flex flex-col md:flex-row justify-center lg:justify-start gap-4 w-full md:w-auto">
+            <div className="mt-8 flex w-full flex-col gap-3 md:mt-10 md:flex-row md:justify-center lg:justify-start">
               <button
                 type="button"
                 data-cursor-hover
                 onClick={goProjects}
-                className="w-full md:w-auto px-10 py-4 rounded-full border border-cyan-400 bg-transparent font-[family-name:var(--font-orbitron)] text-sm uppercase tracking-widest text-cyan-400 transition-all duration-200 hover:bg-cyan-400/10 hover:shadow-[0_0_30px_rgba(0,212,255,0.6)] hover:scale-105 active:scale-95"
+                className="w-full rounded-full border border-cyan-400 px-8 py-3.5 font-[family-name:var(--font-orbitron)] text-xs uppercase tracking-widest text-cyan-400 transition-all duration-200 hover:scale-[1.03] hover:bg-cyan-400/10 hover:shadow-[0_0_28px_rgba(0,212,255,0.55)] md:w-auto md:px-10 md:py-4 md:text-sm"
               >
                 Enter System
               </button>
@@ -99,7 +106,7 @@ export default function Hero() {
                 type="button"
                 data-cursor-hover
                 onClick={goProjects}
-                className="w-full md:w-auto px-10 py-4 rounded-full border border-cyan-400/40 bg-transparent font-[family-name:var(--font-orbitron)] text-sm uppercase tracking-widest text-cyan-300/80 transition-all duration-200 hover:border-cyan-400 hover:bg-cyan-400/10 hover:shadow-[0_0_30px_rgba(0,212,255,0.6)] hover:scale-105 active:scale-95"
+                className="w-full rounded-full border border-cyan-400/45 px-8 py-3.5 font-[family-name:var(--font-orbitron)] text-xs uppercase tracking-widest text-cyan-300 transition-all duration-200 hover:scale-[1.03] hover:border-cyan-400 hover:bg-cyan-400/10 hover:shadow-[0_0_28px_rgba(0,212,255,0.45)] md:w-auto md:px-10 md:py-4 md:text-sm"
               >
                 Explore Projects
               </button>
@@ -107,32 +114,53 @@ export default function Hero() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
+            initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 2.6, duration: 1.4, ease: "easeOut" }}
-            className="relative order-1 mx-auto flex h-[280px] w-[280px] md:h-[400px] md:w-[400px] items-center justify-center perspective-1000 lg:order-2"
+            transition={{ delay: 2.5, duration: 1, ease: "easeOut" }}
+            className="relative order-1 mx-auto flex h-[210px] w-[210px] shrink-0 items-center justify-center sm:h-[245px] sm:w-[245px] md:h-[280px] md:w-[280px] lg:order-2 lg:mx-0 lg:translate-x-8 xl:translate-x-12"
           >
+            {/* Background Breathing Glow & Blending Ring (Cyan Halo & Purple Glow) */}
+            <div className="absolute inset-[-40px] rounded-full bg-[radial-gradient(circle,rgba(0,212,255,0.36)_0%,rgba(168,85,247,0.22)_60%,transparent_100%)] blur-3xl animate-breathe-glow -z-10" />
+            <div className="absolute inset-[-10px] rounded-full bg-[radial-gradient(circle,rgba(0,212,255,0.45)_0%,transparent_70%)] blur-xl -z-10" />
+
+            {/* Orbiting particles */}
+            <div className="absolute inset-[-14px] pointer-events-none animate-orbit-cw z-20">
+              <div className="absolute top-0 left-1/2 h-2.5 w-2.5 rounded-full bg-cyan-400 shadow-[0_0_12px_#00d4ff]" />
+            </div>
+            <div className="absolute inset-[-24px] pointer-events-none animate-orbit-ccw z-20">
+              <div className="absolute bottom-0 right-1/4 h-2 w-2 rounded-full bg-purple-400 shadow-[0_0_10px_#a855f7]" />
+            </div>
+
+            {/* Rotating holographic rings */}
+            <div className="absolute inset-0 rounded-full border border-dashed border-cyan-400/40 animate-orbit-cw p-2 -m-2 z-10" />
+            <div className="absolute inset-0 rounded-full border border-double border-purple-500/35 animate-orbit-ccw p-4 -m-4 z-10" />
+            <div className="absolute inset-0 rounded-full border border-dashed border-cyan-400/20 animate-orbit-ccw p-6 -m-6 z-10" />
+
             <CyberRings />
             <motion.div
-              animate={{ y: [0, -18, 0] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              className="profile-hologram relative z-10 tilt-hover"
-              data-cursor-hover
+              animate={{ y: [0, -6, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              className="profile-hologram relative z-10"
+              style={{
+                boxShadow: "0 0 35px rgba(0, 212, 255, 0.45), 0 0 70px rgba(168, 85, 247, 0.25)"
+              }}
             >
-              <div className="relative h-[200px] w-[200px] md:h-72 md:w-72 overflow-hidden rounded-full">
+              <div className="relative h-[175px] w-[175px] overflow-hidden rounded-full sm:h-[190px] sm:w-[190px] md:h-56 md:w-56">
                 <Image
                   src="/profile.png"
                   alt="Kishan S"
                   fill
                   priority
-                  sizes="(max-width: 768px) 200px, 288px"
+                  sizes="(max-width: 768px) 175px, 224px"
                   className="object-cover object-top"
                 />
                 <div className="profile-overlay absolute inset-0 rounded-full" />
                 <div className="profile-scan absolute inset-0 rounded-full" />
-              </div>
-              <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-cyan-400/60 bg-black/90 px-5 py-1.5 font-[family-name:var(--font-orbitron)] text-[10px] uppercase tracking-[0.4em] text-cyan-400">
-                Identity Verified
+                
+                {/* AI vertical scan-line overlay */}
+                <div className="absolute inset-0 rounded-full overflow-hidden z-20 pointer-events-none">
+                  <div className="absolute inset-x-0 h-1 bg-gradient-to-b from-transparent via-cyan-400/50 to-transparent animate-profile-scanline" />
+                </div>
               </div>
             </motion.div>
           </motion.div>

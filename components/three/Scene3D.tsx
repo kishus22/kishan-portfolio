@@ -2,7 +2,7 @@
 
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, PerspectiveCamera, Stars } from "@react-three/drei";
-import AISphere from "./AISphere";
+import TechEcosystem from "./TechEcosystem";
 
 export default function Scene3D() {
   return (
@@ -11,10 +11,12 @@ export default function Scene3D() {
       <Canvas
         className="rounded-3xl"
         dpr={[1, 1.5]}
-        gl={{ antialias: true, alpha: true }}
+        gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
+        style={{ background: "transparent" }}
       >
+        <fog attach="fog" args={["#020409", 6, 18]} />
         <PerspectiveCamera makeDefault position={[0, 0, 5]} fov={50} />
-        <Stars radius={80} depth={40} count={3000} factor={3} fade speed={0.5} />
+        <Stars radius={80} depth={40} count={1800} factor={2.5} fade speed={0.35} />
         <ambientLight intensity={0.15} />
         <spotLight
           position={[0, 8, 4]}
@@ -28,7 +30,7 @@ export default function Scene3D() {
           intensity={1.2}
           color="#a855f7"
         />
-        <AISphere />
+        <TechEcosystem />
         <OrbitControls
           enableZoom={false}
           enablePan={false}
