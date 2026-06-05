@@ -1,19 +1,71 @@
 "use client";
 
 import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { SKILL_CATEGORIES } from "@/lib/skills";
+
+const CARD_THEMES = [
+  {
+    name: "cyan",
+    glowColor: "rgba(0, 212, 255, 0.45)",
+    glowColorRaw: "rgb(0, 212, 255)",
+    conicGradient: "conic-gradient(from_0deg,transparent_20%,#00D4FF_45%,#ffffff_50%,#00D4FF_55%,transparent_100%)",
+    textColor: "text-[#00D4FF]",
+    textShadow: "0 0 10px rgba(0, 212, 255, 0.5)",
+    chipBorder: "border-cyan-400/20 bg-cyan-950/10 hover:border-cyan-400 hover:bg-cyan-500/15 hover:shadow-[0_0_12px_rgba(0,212,255,0.4)]",
+    spotlight: "rgba(0, 212, 255, 0.08)",
+    borderRest: "border-cyan-400/10",
+    boxShadowHover: "inset 0 0 30px rgba(0, 212, 255, 0.25), 0 0 40px rgba(0, 212, 255, 0.65), 0 0 70px rgba(123, 47, 255, 0.35), 0 15px 45px rgba(0,0,0,0.85)",
+  },
+  {
+    name: "purple",
+    glowColor: "rgba(123, 47, 255, 0.45)",
+    glowColorRaw: "rgb(123, 47, 255)",
+    conicGradient: "conic-gradient(from_0deg,transparent_20%,#7B2FFF_45%,#ffffff_50%,#7B2FFF_55%,transparent_100%)",
+    textColor: "text-[#7B2FFF]",
+    textShadow: "0 0 10px rgba(123, 47, 255, 0.5)",
+    chipBorder: "border-[#7B2FFF]/20 bg-purple-950/10 hover:border-[#7B2FFF] hover:bg-[#7B2FFF]/15 hover:shadow-[0_0_12px_rgba(123,47,255,0.4)]",
+    spotlight: "rgba(123, 47, 255, 0.08)",
+    borderRest: "border-[#7B2FFF]/10",
+    boxShadowHover: "inset 0 0 30px rgba(123, 47, 255, 0.25), 0 0 40px rgba(123, 47, 255, 0.55), 0 0 70px rgba(0, 212, 255, 0.45), 0 15px 45px rgba(0,0,0,0.85)",
+  },
+  {
+    name: "green",
+    glowColor: "rgba(0, 255, 136, 0.45)",
+    glowColorRaw: "rgb(0, 255, 136)",
+    conicGradient: "conic-gradient(from_0deg,transparent_20%,#00FF88_45%,#ffffff_50%,#00FF88_55%,transparent_100%)",
+    textColor: "text-[#00FF88]",
+    textShadow: "0 0 10px rgba(0, 255, 136, 0.5)",
+    chipBorder: "border-[#00FF88]/20 bg-emerald-950/10 hover:border-[#00FF88] hover:bg-[#00FF88]/15 hover:shadow-[0_0_12px_rgba(0,255,136,0.4)]",
+    spotlight: "rgba(0, 255, 136, 0.08)",
+    borderRest: "border-[#00FF88]/10",
+    boxShadowHover: "inset 0 0 30px rgba(0, 255, 136, 0.25), 0 0 40px rgba(0, 255, 136, 0.55), 0 0 70px rgba(0, 212, 255, 0.45), 0 15px 45px rgba(0,0,0,0.85)",
+  },
+  {
+    name: "pink",
+    glowColor: "rgba(236, 72, 153, 0.45)",
+    glowColorRaw: "rgb(236, 72, 153)",
+    conicGradient: "conic-gradient(from_0deg,transparent_20%,#EC4899_45%,#ffffff_50%,#EC4899_55%,transparent_100%)",
+    textColor: "text-[#EC4899]",
+    textShadow: "0 0 10px rgba(236, 72, 153, 0.5)",
+    chipBorder: "border-pink-400/20 bg-pink-950/10 hover:border-pink-400 hover:bg-pink-500/15 hover:shadow-[0_0_12px_rgba(236,72,153,0.4)]",
+    spotlight: "rgba(236, 72, 153, 0.08)",
+    borderRest: "border-[#EC4899]/10",
+    boxShadowHover: "inset 0 0 30px rgba(236, 72, 153, 0.25), 0 0 40px rgba(236, 72, 153, 0.55), 0 0 70px rgba(123, 47, 255, 0.45), 0 15px 45px rgba(0,0,0,0.85)",
+  }
+];
 
 function SkillCard({ cat, index }: { cat: any; index: number }) {
   const cardRef = useRef<HTMLDivElement>(null);
+  const [isHovered, setIsHovered] = useState(false);
   
   // 3D Tilt Motion Values
   const x = useMotionValue(0.5);
   const y = useMotionValue(0.5);
   
   // Maps coordinates to rotation angles
-  const rotateX = useTransform(y, [0, 1], [12, -12]);
-  const rotateY = useTransform(x, [0, 1], [-12, 12]);
+  const rotateX = useTransform(y, [0, 1], [10, -10]);
+  const rotateY = useTransform(x, [0, 1], [-10, 10]);
   
   const springConfig = { damping: 20, stiffness: 180, mass: 0.6 };
   const rXSpring = useSpring(rotateX, springConfig);
@@ -24,6 +76,7 @@ function SkillCard({ cat, index }: { cat: any; index: number }) {
   const highlightY = useTransform(y, [0, 1], ["0%", "100%"]);
   
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    setIsHovered(true);
     const el = cardRef.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
@@ -34,6 +87,7 @@ function SkillCard({ cat, index }: { cat: any; index: number }) {
   };
   
   const handleMouseLeave = () => {
+    setIsHovered(false);
     x.set(0.5);
     y.set(0.5);
   };
@@ -53,6 +107,8 @@ function SkillCard({ cat, index }: { cat: any; index: number }) {
     );
   }, []);
 
+  const theme = CARD_THEMES[index % CARD_THEMES.length];
+
   return (
     <motion.div
       ref={cardRef}
@@ -65,18 +121,16 @@ function SkillCard({ cat, index }: { cat: any; index: number }) {
       }}
       className="perspective-1000 h-full w-full relative group"
     >
-      {/* 1. Large Ambient Cyan Glow & Bloom spilling continuously into surrounding section background */}
+      {/* 1. Blinding Neutron Star Collision Backing Glow */}
       <div 
-        className="absolute -inset-24 rounded-full blur-3xl opacity-40 group-hover:opacity-100 transition-all duration-700 pointer-events-none z-0 group-hover:scale-110 animate-breathe-glow"
+        className="absolute -inset-28 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-all duration-700 pointer-events-none z-0 group-hover:scale-125 animate-breathe-glow"
         style={{
-          background: index % 2 === 0
-            ? "radial-gradient(circle at center, rgba(0, 212, 255, 0.28) 0%, transparent 70%)"
-            : "radial-gradient(circle at center, rgba(168, 85, 247, 0.22) 0%, transparent 70%)",
+          background: `radial-gradient(circle at center, rgba(255, 255, 255, 0.85) 0%, ${theme.glowColor} 30%, transparent 70%)`,
         }}
       />
 
       {/* 2. Soft Bloom Lighting and Depth Shadows under card */}
-      <div className="absolute inset-2 bg-black/60 rounded-xl blur-md -z-10 group-hover:blur-xl transition-all duration-500 shadow-[0_20px_50px_rgba(0,0,0,0.85)] group-hover:shadow-[0_25px_60px_rgba(0,212,255,0.15)]" />
+      <div className="absolute inset-2 bg-black/60 rounded-xl blur-md -z-10 group-hover:blur-xl transition-all duration-500 shadow-[0_20px_50px_rgba(0,0,0,0.85)]" />
 
       {/* 3. Floating Holographic Particles around the card */}
       <div className="absolute -inset-8 overflow-hidden pointer-events-none z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
@@ -105,57 +159,77 @@ function SkillCard({ cat, index }: { cat: any; index: number }) {
         ))}
       </div>
 
-      {/* Main Upgraded Card */}
+      {/* Main Upgraded Card with Conic border sweep */}
       <div 
-        className="skills-card h-full rounded-xl p-6 relative overflow-hidden transition-all duration-500 bg-[#080D1A]/95 group-hover:bg-[#0C152B]/98 border border-cyan-400/20 group-hover:border-cyan-400/60 z-10 flex flex-col group-hover:shadow-[inset_0_0_25px_rgba(0,212,255,0.12)]"
+        className="skills-card h-full rounded-xl p-[1.5px] relative overflow-hidden transition-all duration-500 z-10 flex flex-col"
         style={{
-          boxShadow: index % 2 === 0
-            ? "inset 0 0 35px rgba(0, 212, 255, 0.16), 0 10px 30px rgba(0,0,0,0.6)"
-            : "inset 0 0 35px rgba(123, 47, 255, 0.14), 0 10px 30px rgba(0,0,0,0.6)",
+          transformStyle: "preserve-3d",
         }}
       >
-        {/* 4. Cyan and purple environmental reflections */}
-        <motion.div 
-          className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"
-          style={{
-            background: `radial-gradient(circle 200px at ${highlightX} ${highlightY}, rgba(0, 212, 255, 0.08) 0%, rgba(123, 47, 255, 0.04) 50%, transparent 100%)`
-          }}
-        />
-
-        {/* Shimmer Scanline Effect */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-xl z-10 opacity-30 group-hover:opacity-60 transition-opacity">
-          <div className="absolute inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent animate-card-scanline" />
-        </div>
-
-        {/* 5. SVG Neon Border Sweep / Energy Pulse */}
-        <svg className="absolute inset-0 w-full h-full pointer-events-none z-20" style={{ borderRadius: "12px" }}>
-          <rect
-            x="0.5"
-            y="0.5"
-            width="100%"
-            height="100%"
-            rx="12"
-            fill="none"
-            stroke="url(#skillPulseGrad)"
-            strokeWidth="1.5"
-            strokeDasharray="80 300"
-            className="animate-border-sweep opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        {/* Conic border sweep container with neutron star flare sweep */}
+        <div className="absolute inset-0 z-0 rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none" style={{ padding: '1.5px' }}>
+          <div 
+            className="absolute inset-0 animate-[spin_3s_linear_infinite]"
+            style={{
+              background: theme.conicGradient,
+            }}
           />
-        </svg>
+        </div>
+        
+        {/* Inner Card Panel content */}
+        <div 
+          className={`w-full h-full rounded-[11.5px] p-6 relative overflow-hidden bg-[#080D1A]/95 group-hover:bg-[#0C152B]/98 z-10 flex flex-col border ${theme.borderRest} group-hover:border-transparent transition-colors duration-500`}
+          style={{
+            transformStyle: "preserve-3d",
+            boxShadow: isHovered ? theme.boxShadowHover : "inset 0 0 12px rgba(255, 255, 255, 0.01), 0 4px 20px rgba(0, 0, 0, 0.6)",
+          }}
+        >
+          {/* Custom spotlight reflections */}
+          <motion.div 
+            className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"
+            style={{
+              background: `radial-gradient(circle 200px at ${highlightX} ${highlightY}, ${theme.spotlight} 0%, rgba(123, 47, 255, 0.02) 50%, transparent 100%)`
+            }}
+          />
 
-        {/* Content */}
-        <h3 className="font-[family-name:var(--font-fira-code)] text-[11px] text-[#00D4FF] tracking-[0.15em] uppercase mb-4 z-10" style={{ marginBottom: "16px" }}>
-          {cat.category}
-        </h3>
-        <div className="flex flex-wrap gap-2 z-10">
-          {cat.skills.map((skill: string) => (
-            <span 
-              key={skill} 
-              className="skill-chip rounded-[6px] px-[14px] py-[6px] font-[family-name:var(--font-inter)] text-[13px] text-[#E8F4FD] transition-all duration-200 select-none inline-block hover:scale-105"
-            >
-              {skill}
-            </span>
-          ))}
+          {/* Gloss Glass reflection sweep */}
+          <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden rounded-xl">
+            <div className="absolute top-0 left-0 w-[200%] h-full bg-[linear-gradient(115deg,transparent_40%,rgba(255,255,255,0.03)_45%,rgba(0,212,255,0.06)_50%,transparent_55%)] -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
+          </div>
+
+          {/* Shimmer Scanline Effect */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-xl z-10 opacity-30 group-hover:opacity-60 transition-opacity">
+            <div className="absolute inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent animate-card-scanline" />
+          </div>
+
+          {/* Content category - Floating layer */}
+          <h3 
+            className={`font-[family-name:var(--font-fira-code)] text-[11px] tracking-[0.15em] uppercase mb-4 z-10 select-none ${theme.textColor}`}
+            style={{ 
+              marginBottom: "16px",
+              transform: "translateZ(20px)",
+              textShadow: theme.textShadow
+            }}
+          >
+            {cat.category}
+          </h3>
+          
+          {/* Chips list - Floating layer */}
+          <div 
+            className="flex flex-wrap gap-2.5 z-10"
+            style={{
+              transform: "translateZ(10px)",
+            }}
+          >
+            {cat.skills.map((skill: string) => (
+              <span 
+                key={skill} 
+                className={`skill-chip relative rounded-[6px] px-[14px] py-[6px] font-[family-name:var(--font-inter)] text-[13px] text-[#E8F4FD] border bg-opacity-[0.1] transition-all duration-300 select-none inline-block hover:scale-105 ${theme.chipBorder}`}
+              >
+                {skill}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </motion.div>
@@ -163,148 +237,14 @@ function SkillCard({ cat, index }: { cat: any; index: number }) {
 }
 
 export default function Skills() {
-  const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
-  const [particles, setParticles] = useState<any[]>([]);
-
-  useEffect(() => {
-    setParticles(
-      Array.from({ length: 18 }, (_, i) => ({
-        id: i,
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        size: 2 + Math.random() * 3,
-        duration: 12 + Math.random() * 14,
-        delay: Math.random() * -12,
-      }))
-    );
-  }, []);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    setMousePos({ x, y });
-  };
-
   return (
     <section 
       id="skills" 
       data-scroll-reveal 
-      onMouseMove={handleMouseMove}
-      className="scene-snap relative z-10 px-6 py-20 overflow-hidden bg-black"
+      className="scene-snap relative z-10 px-6 py-20"
     >
-      {/* Large Ambient Cyan Glow */}
-      <div 
-        className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] rounded-full bg-[radial-gradient(circle,rgba(0,212,255,0.18)_0%,transparent_75%)] blur-3xl pointer-events-none z-0"
-      />
-      {/* Large Ambient Purple Glow */}
-      <div 
-        className="absolute bottom-[-15%] right-[-10%] w-[70%] h-[70%] rounded-full bg-[radial-gradient(circle,rgba(123,47,255,0.12)_0%,transparent_75%)] blur-3xl pointer-events-none z-0"
-      />
-
-      {/* Moving Spotlight */}
-      <div 
-        className="absolute inset-0 pointer-events-none z-0 transition-opacity duration-500 opacity-90"
-        style={{
-          background: `radial-gradient(circle 600px at ${mousePos.x}% ${mousePos.y}%, rgba(0, 212, 255, 0.14) 0%, rgba(123, 47, 255, 0.08) 50%, transparent 100%)`,
-        }}
-      />
-
-      {/* Floating Cyan Light Orb */}
-      <motion.div
-        animate={{
-          x: [0, 90, -50, 0],
-          y: [0, -70, 50, 0],
-          scale: [1, 1.2, 0.85, 1],
-        }}
-        transition={{
-          duration: 18,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        className="absolute top-1/4 left-1/4 w-[360px] h-[360px] rounded-full bg-[radial-gradient(circle,rgba(0,212,255,0.18)_0%,transparent_70%)] blur-3xl pointer-events-none z-0"
-      />
-
-      {/* Animated Light Sweep / Volumetric Effect */}
-      <motion.div
-        initial={{ x: "-100%" }}
-        animate={{ x: "100%" }}
-        transition={{
-          duration: 9.0,
-          repeat: Infinity,
-          ease: "linear",
-        }}
-        className="absolute inset-y-0 w-1/2 bg-gradient-to-r from-transparent via-cyan-500/10 to-transparent skew-x-12 pointer-events-none z-0"
-      />
-
-      {/* Holographic Reflections overlay */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none z-0 bg-[linear-gradient(45deg,rgba(0,212,255,0.5)_25%,transparent_25%),linear-gradient(-45deg,rgba(0,212,255,0.5)_25%,transparent_25%)] bg-[size:40px_40px]" />
-
-      {/* Animated Neural Connections SVG */}
-      <svg className="absolute inset-0 w-full h-full opacity-[0.2] pointer-events-none z-0" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="neuralGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#00D4FF" stopOpacity="0.85" />
-            <stop offset="100%" stopColor="#7B2FFF" stopOpacity="0.05" />
-          </linearGradient>
-          <linearGradient id="neuralGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#7B2FFF" stopOpacity="0.85" />
-            <stop offset="100%" stopColor="#00FF88" stopOpacity="0.05" />
-          </linearGradient>
-          <linearGradient id="skillPulseGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#00D4FF" stopOpacity="1" />
-            <stop offset="30%" stopColor="#7B2FFF" stopOpacity="0.95" />
-            <stop offset="100%" stopColor="transparent" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-        <motion.path
-          d="M 50 150 Q 250 80 450 220 T 850 120 T 1200 200"
-          fill="none"
-          stroke="url(#neuralGrad1)"
-          strokeWidth="1.5"
-          strokeDasharray="8 4"
-          animate={{ strokeDashoffset: [0, -60] }}
-          transition={{ duration: 14, repeat: Infinity, ease: "linear" }}
-        />
-        <motion.path
-          d="M 150 550 Q 450 400 650 620 T 1050 450"
-          fill="none"
-          stroke="url(#neuralGrad2)"
-          strokeWidth="1.5"
-          strokeDasharray="12 6"
-          animate={{ strokeDashoffset: [0, 80] }}
-          transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-        />
-      </svg>
-
-      {/* Subtle Floating Particles */}
-      <div className="absolute inset-0 pointer-events-none z-0 md:block hidden">
-        {particles.map((p) => (
-          <motion.div
-            key={p.id}
-            className="absolute rounded-full bg-cyan-400/40 blur-[1px]"
-            style={{
-              left: `${p.x}%`,
-              top: `${p.y}%`,
-              width: p.size,
-              height: p.size,
-            }}
-            animate={{
-              y: [0, -100, 0],
-              opacity: [0.15, 0.7, 0.15],
-              scale: [1, 1.4, 1],
-            }}
-            transition={{
-              duration: p.duration,
-              repeat: Infinity,
-              delay: p.delay,
-              ease: "easeInOut",
-            }}
-          />
-        ))}
-      </div>
-
       <div className="mx-auto max-w-7xl relative z-10">
+        {/* HUD Indicator */}
         <div className="absolute -top-4 right-6 hidden md:block opacity-60 font-[family-name:var(--font-fira-code)] text-[10px] text-[rgba(0,212,255,0.7)] bg-[rgba(0,0,0,0.4)] backdrop-blur-[8px] border border-[rgba(0,212,255,0.2)] rounded px-[10px] py-[6px] uppercase tracking-widest">
           SYSTEM_SYNC: ACTIVE
         </div>

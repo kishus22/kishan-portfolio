@@ -11,6 +11,8 @@ export type Project = {
   achievements: string[];
   github: string;
   demo: string | null;
+  mission: string;
+  techSummary: string;
 };
 
 export const projects: Project[] = [
@@ -30,7 +32,9 @@ export const projects: Project[] = [
       "Ensemble CNN approach achieving high-accuracy fraud classification"
     ],
     github: "https://github.com/Kishan-S",
-    demo: null
+    demo: null,
+    mission: "Detecting financial threats before they happen.",
+    techSummary: "Python • Scikit-Learn • XGBoost • 10K+ Records"
   },
   {
     id: 2,
@@ -48,13 +52,15 @@ export const projects: Project[] = [
       "Multi-face detection with individual confidence scoring per frame"
     ],
     github: "https://github.com/Kishan-S",
-    demo: null
+    demo: null,
+    mission: "Identifying suspects in real-time surveillance feeds.",
+    techSummary: "Python • OpenCV • InsightFace • Deep Embeddings"
   },
   {
     id: 3,
     name: "Real-Time Face Animation",
     category: "Computer Vision · Motion Capture AI",
-    year: "2026",
+    year: "2025",
     image: "/face-animation.jpeg",
     overview: "Real-time facial mesh tracking system using MediaPipe and OpenCV for live face animation with holographic rendering pipelines.",
     problem: "Creating smooth real-time facial animation on standard hardware requires an optimized pipeline that balances accuracy with processing speed.",
@@ -66,7 +72,9 @@ export const projects: Project[] = [
       "Holographic mesh rendering on live video feed with minimal latency"
     ],
     github: "https://github.com/Kishan-S",
-    demo: null
+    demo: null,
+    mission: "Animating digital avatars with live motion capture.",
+    techSummary: "Python • MediaPipe • OpenCV • 30+ FPS mesh tracking"
   },
   {
     id: 4,
@@ -84,7 +92,9 @@ export const projects: Project[] = [
       "Batch face swapping with improved detection across varied facial images"
     ],
     github: "https://github.com/Kishan-S",
-    demo: null
+    demo: null,
+    mission: "Unmasking deepfakes and defending digital identity.",
+    techSummary: "Python • InsightFace • TensorFlow • CNN classifiers"
   },
   {
     id: 5,
@@ -102,7 +112,9 @@ export const projects: Project[] = [
       "Government-grade MongoDB database with structured record management"
     ],
     github: "https://github.com/Kishan-S",
-    demo: null
+    demo: null,
+    mission: "Securing national civil identity databases.",
+    techSummary: "Next.js • Node.js • MongoDB • Document Cryptography"
   },
   {
     id: 6,
@@ -120,7 +132,9 @@ export const projects: Project[] = [
       "Real-time data flow monitoring with automated reporting dashboards"
     ],
     github: "https://github.com/Kishan-S",
-    demo: null
+    demo: null,
+    mission: "Orchestrating high-scale financial API testing pipelines.",
+    techSummary: "Python • Pytest • GitHub Actions • CI/CD Triggers"
   }
 ];
 

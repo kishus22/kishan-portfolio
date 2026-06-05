@@ -60,11 +60,21 @@ export default function ProjectCard({ project, index, onOpen }: ProjectCardProps
         onMouseLeave={handleLeave}
         style={{
           transform: tilt.lift
-            ? `perspective(900px) rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg) translateZ(10px)`
+            ? `perspective(900px) rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg) translateZ(12px)`
             : undefined,
+          boxShadow: tilt.lift
+            ? "0 0 35px rgba(0, 212, 255, 0.25), 0 0 50px rgba(168, 85, 247, 0.15), inset 0 0 20px rgba(0, 212, 255, 0.1)"
+            : "0 0 20px rgba(0, 212, 255, 0.04), inset 0 0 10px rgba(0, 212, 255, 0.02)",
         }}
-        className="project-card-tilt group relative flex h-[380px] cursor-pointer flex-col overflow-hidden rounded-2xl border border-cyan-400/20 bg-[rgba(2,4,9,0.85)] transition-[border-color,box-shadow,transform] duration-300 hover:border-cyan-400/50 max-md:!transform-none max-md:h-auto max-md:min-h-[320px]"
+        className="project-card-tilt group relative flex h-[380px] cursor-pointer flex-col overflow-hidden rounded-2xl border border-cyan-400/20 bg-[rgba(2,4,9,0.85)] transition-[border-color,box-shadow,transform] duration-300 hover:border-transparent max-md:!transform-none max-md:h-auto max-md:min-h-[320px]"
       >
+        {/* Animated Holographic Border Sweep */}
+        <div className="absolute inset-0 z-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ padding: '1px' }}>
+          <div className="absolute inset-0 bg-[conic-gradient(from_0deg,transparent_40%,#00D4FF_50%,#7B2FFF_60%,transparent_100%)] animate-[spin_4s_linear_infinite]" />
+          <div className="absolute inset-[1px] rounded-2xl bg-[rgba(2,4,9,0.95)] z-[-1]" />
+        </div>
+
+        {/* Spot Light Overlay */}
         <div
           className="pointer-events-none absolute inset-0 z-[2] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
           style={{
@@ -72,6 +82,7 @@ export default function ProjectCard({ project, index, onOpen }: ProjectCardProps
           }}
         />
 
+        {/* Image Container */}
         <div className="relative min-h-[200px] flex-1 overflow-hidden">
           <Image
             src={project.image}
@@ -79,27 +90,45 @@ export default function ProjectCard({ project, index, onOpen }: ProjectCardProps
             fill
             loading="lazy"
             sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+            className="object-cover transition-transform duration-500 group-hover:scale-[1.07]"
             style={{ filter: "brightness(0.5) contrast(1.1) saturate(0.7)" }}
           />
-          <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(2,4,9,0.95)_40%,rgba(2,4,9,0.2)_100%)]" />
+
+          {/* Subtle Scan-line Overlay */}
+          <div className="absolute inset-0 z-[1] pointer-events-none opacity-[0.25] bg-[repeating-linear-gradient(0deg,transparent,transparent_2px,rgba(0,212,255,0.06)_2px,rgba(0,212,255,0.06)_4px)]" />
+
+          {/* Glass Reflection sweep */}
+          <div className="absolute inset-0 z-[2] pointer-events-none overflow-hidden">
+            <div className="absolute top-0 left-0 w-[200%] h-full bg-[linear-gradient(105deg,transparent_30%,rgba(255,255,255,0.03)_40%,rgba(0,212,255,0.05)_45%,transparent_50%)] -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
+          </div>
+
+          <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(2,4,9,0.95)_40%,rgba(2,4,9,0.2)_100%)] z-[2]" />
+          
           <span className="absolute right-4 top-4 z-[3] rounded border border-cyan-400/40 px-2 py-0.5 font-[family-name:var(--font-fira-code)] text-[11px] text-[#00d4ff]">
             {project.year}
           </span>
         </div>
 
+        {/* Content Details */}
         <div className="relative z-[3] mt-auto p-5">
           <h3 className="font-[family-name:var(--font-orbitron)] text-xl font-semibold leading-snug text-white group-hover:text-cyan-200">
             {project.name}
           </h3>
-          <p className="mt-2 line-clamp-2 font-[family-name:var(--font-fira-code)] text-xs leading-relaxed text-[#8BA3B8]">
-            {project.overview}
+          
+          {/* Mission File Style Descriptions */}
+          <p className="mt-2.5 font-[family-name:var(--font-fira-code)] text-[11.5px] leading-relaxed text-cyan-400/90 font-medium">
+            "{project.mission}"
           </p>
-          <div className="mt-3 flex flex-wrap gap-2">
+          <p className="mt-1 font-[family-name:var(--font-fira-code)] text-[10px] tracking-wide text-[#8BA3B8] opacity-85">
+            {project.techSummary}
+          </p>
+
+          {/* Tech Tags */}
+          <div className="mt-4 flex flex-wrap gap-2">
             {project.stack.slice(0, 4).map((item) => (
               <span
                 key={item}
-                className="rounded border border-cyan-400/25 px-2 py-0.5 font-[family-name:var(--font-fira-code)] text-[10px] uppercase tracking-wider text-cyan-400/90"
+                className="rounded border border-cyan-400/25 px-2 py-0.5 font-[family-name:var(--font-fira-code)] text-[10px] uppercase tracking-wider text-cyan-400/70 group-hover:border-cyan-400 group-hover:text-white group-hover:shadow-[0_0_10px_rgba(0,212,255,0.25)] transition-all duration-300"
               >
                 {item}
               </span>

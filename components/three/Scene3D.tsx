@@ -2,9 +2,9 @@
 
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, PerspectiveCamera, Stars } from "@react-three/drei";
-import TechEcosystem from "./TechEcosystem";
+import TechDimensionPortal from "./TechDimensionPortal";
 
-export default function Scene3D() {
+export default function Scene3D({ onOpenProject }: { onOpenProject: (project: any) => void }) {
   return (
     <div className="relative h-[min(70vh,560px)] w-full">
       <div className="pointer-events-none absolute inset-0 rounded-3xl bg-[radial-gradient(ellipse_at_center,rgba(0,255,255,0.15)_0%,transparent_70%)]" />
@@ -30,12 +30,12 @@ export default function Scene3D() {
           intensity={1.2}
           color="#a855f7"
         />
-        <TechEcosystem />
+        <TechDimensionPortal onOpenProject={onOpenProject} />
         <OrbitControls
           enableZoom={false}
           enablePan={false}
           autoRotate
-          autoRotateSpeed={0.4}
+          autoRotateSpeed={0.3}
         />
       </Canvas>
     </div>

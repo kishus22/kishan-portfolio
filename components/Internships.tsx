@@ -114,130 +114,123 @@ function InternshipCard({ intern, index }: { intern: any; index: number }) {
         <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-400 shadow-[0_0_8px_#00D4FF]"></span>
       </div>
 
-      {/* Main card body */}
+      {/* Horizontal connection wire to timeline (visible on md screens) */}
+      <div className="absolute -left-14 top-12 w-14 h-[1.5px] bg-gradient-to-r from-cyan-400/20 to-cyan-400/40 hidden md:block group-hover/glow:from-cyan-400 group-hover/glow:to-cyan-400/80 transition-all duration-300 pointer-events-none z-0 shadow-[0_0_8px_rgba(0,212,255,0.2)]" />
+
+      {/* Main card body with conic-gradient border sweep */}
       <div 
-        className="relative h-full rounded-xl border border-cyan-400/20 group-hover/glow:border-cyan-400/60 bg-[#080D1A]/95 group-hover/glow:bg-[#0C152B]/98 p-8 transition-all duration-500 flex flex-col justify-between overflow-hidden group-hover/glow:shadow-[0_0_50px_rgba(0,212,255,0.3),inset_0_0_20px_rgba(0,212,255,0.1)] z-10"
-        style={{ 
-          backdropFilter: "blur(12px)", 
-          WebkitBackdropFilter: "blur(12px)",
-          boxShadow: index % 2 === 0
-            ? "inset 0 0 30px rgba(0, 212, 255, 0.14), 0 10px 40px rgba(0,0,0,0.6)"
-            : "inset 0 0 30px rgba(123, 47, 255, 0.12), 0 10px 40px rgba(0,0,0,0.6)",
+        className="skills-card h-full rounded-xl p-[1.5px] relative overflow-hidden transition-all duration-500 z-10 flex flex-col group-hover/glow:scale-[1.03]"
+        style={{
+          transformStyle: "preserve-3d",
         }}
       >
-        {/* 4. Cyan and purple environmental reflections */}
-        <motion.div 
-          className="absolute inset-0 pointer-events-none opacity-0 group-hover/glow:opacity-100 transition-opacity duration-500 z-0"
-          style={{
-            background: `radial-gradient(circle 200px at ${highlightX} ${highlightY}, rgba(0, 212, 255, 0.08) 0%, rgba(123, 47, 255, 0.04) 50%, transparent 100%)`
-          }}
-        />
-
-        {/* 5. Animated border energy sweep */}
-        <svg className="absolute inset-0 w-full h-full pointer-events-none z-20" style={{ borderRadius: "12px" }}>
-          <defs>
-            <linearGradient id="internPulseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#00D4FF" stopOpacity="1" />
-              <stop offset="40%" stopColor="#7B2FFF" stopOpacity="0.8" />
-              <stop offset="100%" stopColor="transparent" stopOpacity="0" />
-            </linearGradient>
-          </defs>
-          <rect
-            x="0.5"
-            y="0.5"
-            width="100%"
-            height="100%"
-            rx="12"
-            fill="none"
-            stroke="url(#internPulseGrad)"
-            strokeWidth="1.5"
-            strokeDasharray="90 350"
-            className="animate-border-sweep opacity-0 group-hover/glow:opacity-100 transition-opacity duration-500"
-          />
-        </svg>
-
-        {/* Diagonal Light Streaks sweep */}
-        <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-          <motion.div
-            initial={{ left: "-150%", top: "-150%" }}
-            animate={{ left: "150%", top: "150%" }}
-            transition={{
-              duration: 5,
-              repeat: Infinity,
-              ease: "easeInOut",
-              repeatDelay: 3,
-              delay: index * 1.5,
-            }}
-            className="absolute w-[60%] h-[300%] bg-gradient-to-r from-transparent via-cyan-400/8 to-transparent rotate-[30deg] transform -translate-y-1/2"
-          />
+        {/* Conic Gradient Border Sweep */}
+        <div className="absolute inset-0 z-0 rounded-xl opacity-0 group-hover/glow:opacity-100 transition-opacity duration-500 pointer-events-none">
+          <div className="absolute inset-0 bg-[conic-gradient(from_0deg,transparent_30%,#00D4FF_50%,#7B2FFF_65%,transparent_100%)] animate-[spin_5s_linear_infinite]" />
         </div>
 
-        {/* Top Edge Light Sweep */}
-        <motion.div
-          initial={{ x: "-100%" }}
-          animate={{ x: "100%" }}
-          transition={{
-            duration: 3.5,
-            repeat: Infinity,
-            ease: "linear",
-            delay: index * 1.5,
+        {/* Inner Card Panel content */}
+        <div 
+          className="w-full h-full rounded-[11.5px] p-8 relative overflow-hidden bg-[#080D1A]/95 group-hover/glow:bg-[#0C152B]/98 z-10 flex flex-col justify-between border border-cyan-400/10 group-hover/glow:border-transparent transition-colors duration-500"
+          style={{
+            transformStyle: "preserve-3d",
+            boxShadow: index % 2 === 0
+              ? "inset 0 0 30px rgba(0, 212, 255, 0.14), 0 10px 40px rgba(0,0,0,0.6)"
+              : "inset 0 0 30px rgba(123, 47, 255, 0.12), 0 10px 40px rgba(0,0,0,0.6)",
           }}
-          className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-80"
-        />
+        >
+          {/* Cyan and purple environmental reflections */}
+          <motion.div 
+            className="absolute inset-0 pointer-events-none opacity-0 group-hover/glow:opacity-100 transition-opacity duration-500 z-0"
+            style={{
+              background: `radial-gradient(circle 200px at ${highlightX} ${highlightY}, rgba(0, 212, 255, 0.08) 0%, rgba(123, 47, 255, 0.04) 50%, transparent 100%)`
+            }}
+          />
 
-        {/* Left vertical Accent bar */}
-        <motion.div 
-          animate={{ opacity: [0.5, 1.0, 0.5] }}
-          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute left-0 top-0 bottom-0 w-[3px] bg-gradient-to-b from-[#00D4FF] to-[#7B2FFF] rounded-l-xl z-20"
-        />
-
-        <div className="relative z-10 flex-1 flex flex-col justify-between">
-          <div>
-            {/* Top Row: Company & Period */}
-            <div className="flex items-center justify-between gap-4">
-              <h3 className="font-[family-name:var(--font-orbitron)] text-xl font-bold text-white group-hover/glow:text-cyan-200 transition-colors duration-300">
-                {intern.company}
-              </h3>
-              <span className="font-[family-name:var(--font-fira-code)] text-xs text-[#00D4FF] bg-[rgba(0,212,255,0.08)] border border-[rgba(0,212,255,0.25)] rounded px-3 py-1 tracking-wider shadow-[0_0_10px_rgba(0,212,255,0.15)]">
-                {intern.period}
-              </span>
-            </div>
-
-            {/* Second Row: Role */}
-            <div className="mt-3 flex items-center gap-3">
-              <p className="font-[family-name:var(--font-orbitron)] text-sm uppercase tracking-[0.25em] text-purple-300">
-                {intern.role}
-              </p>
-              <span className="font-[family-name:var(--font-fira-code)] text-[10px] text-cyan-400/60 uppercase tracking-widest">
-                · {intern.company === "Contriver" ? "Bangalore, IN" : "Remote"}
-              </span>
-            </div>
-
-            {/* Description */}
-            <p className="mt-4 leading-relaxed text-gray-400 font-[family-name:var(--font-inter)] text-[14px]">
-              {intern.description}
-            </p>
+          {/* Glass reflections sweep */}
+          <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden rounded-xl">
+            <div className="absolute top-0 left-0 w-[200%] h-full bg-[linear-gradient(115deg,transparent_40%,rgba(255,255,255,0.03)_45%,rgba(0,212,255,0.06)_50%,transparent_55%)] -translate-x-full group-hover/glow:translate-x-full transition-transform duration-1000 ease-out" />
           </div>
 
-          <div className="mt-8">
-            {/* Skills chip list */}
-            <div className="flex flex-wrap gap-2">
-              {intern.skills.map((skill: string) => (
-                <span
-                  key={skill}
-                  className="rounded-[6px] border border-[rgba(0,212,255,0.25)] bg-[rgba(0,212,255,0.06)] px-[14px] py-[6px] font-[family-name:var(--font-inter)] text-[12px] text-[#E8F4FD] transition-all duration-200 hover:border-[#00D4FF] hover:bg-[rgba(0,212,255,0.12)] hover:shadow-[0_0_12px_rgba(0,212,255,0.4)] select-none hover:scale-105"
-                >
-                  {skill}
+          {/* Moving Scan-line effect */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-xl z-10 opacity-30 group-hover/glow:opacity-60 transition-opacity">
+            <div className="absolute inset-x-0 h-16 bg-gradient-to-b from-transparent via-cyan-400/25 to-transparent animate-card-scanline" />
+          </div>
+
+          {/* Left vertical Accent bar */}
+          <motion.div 
+            animate={{ opacity: [0.5, 1.0, 0.5] }}
+            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute left-0 top-0 bottom-0 w-[3px] bg-gradient-to-b from-[#00D4FF] to-[#7B2FFF] rounded-l-xl z-20"
+          />
+
+          <div 
+            className="relative z-10 flex-1 flex flex-col justify-between"
+            style={{
+              transformStyle: "preserve-3d",
+            }}
+          >
+            <div 
+              style={{
+                transform: "translateZ(20px)",
+              }}
+            >
+              {/* Top Row: Company & Period */}
+              <div className="flex items-center justify-between gap-4">
+                <h3 className="font-[family-name:var(--font-orbitron)] text-xl font-bold text-white group-hover/glow:text-cyan-200 transition-colors duration-300">
+                  {intern.company}
+                </h3>
+                <span className="font-[family-name:var(--font-fira-code)] text-xs text-[#00D4FF] bg-[rgba(0,212,255,0.08)] border border-[rgba(0,212,255,0.25)] rounded px-3 py-1 tracking-wider shadow-[0_0_10px_rgba(0,212,255,0.15)]">
+                  {intern.period}
                 </span>
-              ))}
+              </div>
+
+              {/* Second Row: Role */}
+              <div className="mt-3 flex items-center gap-3">
+                <p className="font-[family-name:var(--font-orbitron)] text-sm uppercase tracking-[0.25em] text-purple-300">
+                  {intern.role}
+                </p>
+                <span className="font-[family-name:var(--font-fira-code)] text-[10px] text-cyan-400/60 uppercase tracking-widest">
+                  · {intern.company === "Contriver" ? "Bangalore, IN" : "Remote"}
+                </span>
+              </div>
+
+              {/* Description */}
+              <p className="mt-4 leading-relaxed text-gray-400 font-[family-name:var(--font-inter)] text-[14px]">
+                {intern.description}
+              </p>
             </div>
 
-            {/* Status badge */}
-            <div className="mt-6 flex items-center justify-between">
-              <span className="font-[family-name:var(--font-fira-code)] text-[10px] text-[#00FF88] bg-[rgba(0,255,136,0.08)] border border-[rgba(0,255,136,0.25)] rounded px-2.5 py-1 tracking-widest uppercase shadow-[0_0_10px_rgba(0,255,136,0.1)]">
-                MISSION COMPLETE
-              </span>
+            <div 
+              className="mt-8"
+              style={{
+                transform: "translateZ(10px)",
+              }}
+            >
+              {/* Skills chip list */}
+              <div className="flex flex-wrap gap-2">
+                {intern.skills.map((skill: string) => (
+                  <span
+                    key={skill}
+                    className="rounded-[6px] border border-[rgba(0,212,255,0.25)] bg-[rgba(0,212,255,0.06)] px-[14px] py-[6px] font-[family-name:var(--font-inter)] text-[12px] text-[#E8F4FD] transition-all duration-200 hover:border-[#00D4FF] hover:bg-[rgba(0,212,255,0.12)] hover:shadow-[0_0_12px_rgba(0,212,255,0.4)] select-none hover:scale-105 inline-block"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+
+              {/* Status badge with green pulse glow */}
+              <div className="mt-6 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00FF88] opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00FF88] shadow-[0_0_8px_#00FF88]"></span>
+                  </span>
+                  <span className="font-[family-name:var(--font-fira-code)] text-[10px] text-[#00FF88] bg-[rgba(0,255,136,0.08)] border border-[rgba(0,255,136,0.25)] rounded px-2.5 py-1 tracking-widest uppercase shadow-[0_0_10px_rgba(0,255,136,0.1)]">
+                    MISSION COMPLETE
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -250,14 +243,17 @@ export default function Internships() {
   const [particles, setParticles] = useState<any[]>([]);
 
   useEffect(() => {
+    const missionFragments = ["WORK", "CORP", "SYS", "DEPLOY", "EXEC", "ROLE", "DEV", "LOG", "01", "SECURE", "OPS", "CLOUD"];
     setParticles(
-      Array.from({ length: 16 }, (_, i) => ({
+      Array.from({ length: 20 }, (_, i) => ({
         id: i,
         x: Math.random() * 100,
         y: Math.random() * 100,
         size: 1.5 + Math.random() * 2.5,
+        text: missionFragments[i % missionFragments.length],
         duration: 9 + Math.random() * 9,
         delay: Math.random() * -9,
+        isText: Math.random() > 0.4
       }))
     );
   }, []);
@@ -276,30 +272,58 @@ export default function Internships() {
         }}
       />
 
-      {/* Floating particles */}
+      {/* Drifting Mission Telemetry Atmosphere */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden md:block hidden">
-        {particles.map((p) => (
-          <motion.div
-            key={p.id}
-            className="absolute rounded-full bg-cyan-400/40 blur-[0.5px]"
-            style={{
-              left: `${p.x}%`,
-              top: `${p.y}%`,
-              width: p.size,
-              height: p.size,
-            }}
-            animate={{
-              y: [0, -100, 0],
-              opacity: [0.1, 0.6, 0.1],
-            }}
-            transition={{
-              duration: p.duration,
-              repeat: Infinity,
-              delay: p.delay,
-              ease: "easeInOut",
-            }}
-          />
-        ))}
+        {particles.map((p) => {
+          if (p.isText) {
+            return (
+              <motion.div
+                key={p.id}
+                className="absolute font-mono text-[9px] text-cyan-400/20 select-none"
+                style={{
+                  left: `${p.x}%`,
+                  top: `${p.y}%`,
+                  fontSize: `${p.size + 8}px`,
+                }}
+                animate={{
+                  y: [0, -100, 0],
+                  opacity: [0.05, 0.4, 0.05],
+                  scale: [0.9, 1.1, 0.9],
+                }}
+                transition={{
+                  duration: p.duration,
+                  repeat: Infinity,
+                  delay: p.delay,
+                  ease: "easeInOut",
+                }}
+              >
+                {p.text}
+              </motion.div>
+            );
+          }
+          return (
+            <motion.div
+              key={p.id}
+              className="absolute rounded-full bg-cyan-400/40 blur-[0.5px]"
+              style={{
+                left: `${p.x}%`,
+                top: `${p.y}%`,
+                width: p.size,
+                height: p.size,
+              }}
+              animate={{
+                y: [0, -100, 0],
+                opacity: [0.1, 0.6, 0.1],
+              }}
+              transition={{
+                duration: p.duration,
+                repeat: Infinity,
+                delay: p.delay,
+                ease: "easeInOut",
+              }}
+            />
+          );
+        })}
       </div>
 
       <div className="mx-auto max-w-5xl relative z-10">
@@ -344,9 +368,49 @@ export default function Internships() {
             transition={{ duration: 1.5, ease: "easeOut" }}
             className="absolute left-6 top-0 bottom-0 w-[2px] origin-top bg-gradient-to-b from-[#00D4FF] via-[#7B2FFF] to-transparent hidden md:block"
             style={{
-              boxShadow: "0 0 10px rgba(0, 212, 255, 0.2)",
+              boxShadow: "0 0 12px rgba(0, 212, 255, 0.5)",
             }}
           />
+
+          {/* Timeline energy pulses */}
+          <motion.div
+            initial={{ top: "0%" }}
+            animate={{ top: "100%" }}
+            transition={{
+              duration: 5.0,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className="absolute left-[21px] w-2.5 h-16 bg-gradient-to-b from-cyan-400 via-[#7B2FFF] to-transparent rounded-full shadow-[0_0_15px_#00D4FF] z-10 hidden md:block"
+          />
+
+          {/* Timeline data packet dots */}
+          <motion.div
+            initial={{ top: "0%" }}
+            animate={{ top: "100%" }}
+            transition={{
+              duration: 3.2,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+            className="absolute left-[24.5px] w-1 h-1 bg-cyan-400 rounded-full shadow-[0_0_8px_#00D4FF] z-10 hidden md:block"
+          />
+          <motion.div
+            initial={{ top: "0%" }}
+            animate={{ top: "100%" }}
+            transition={{
+              duration: 4.8,
+              repeat: Infinity,
+              ease: "linear",
+              delay: 1.8
+            }}
+            className="absolute left-[24.5px] w-1 h-1 bg-purple-400 rounded-full shadow-[0_0_8px_#a855f7] z-10 hidden md:block"
+          />
+
+          {/* Diagnostic database indicator header */}
+          <div className="absolute -top-4 right-6 hidden md:block opacity-60 font-[family-name:var(--font-fira-code)] text-[10px] text-[rgba(0,212,255,0.7)] bg-[rgba(0,0,0,0.4)] backdrop-blur-[8px] border border-[rgba(0,212,255,0.2)] rounded px-[10px] py-[6px] uppercase tracking-widest">
+            MISSION_DB: ONLINE
+          </div>
 
           <div className="grid gap-10 md:grid-cols-2 md:pl-20">
             {INTERNSHIPS.map((intern, index) => (
