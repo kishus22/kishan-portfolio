@@ -1,9 +1,9 @@
-﻿"use client";
+"use client";
 
+import dynamic from "next/dynamic";
 import Loader from "@/components/Loader";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import AIReactor from "@/components/sections/AIReactor";
 import ProjectsCinematic from "@/components/sections/ProjectsCinematic";
 import Skills from "@/components/Skills";
 import Education from "@/components/Education";
@@ -18,6 +18,33 @@ import FloatingHUD from "@/components/effects/FloatingHUD";
 import SectionSeparator from "@/components/ui/SectionSeparator";
 import ParticleTunnel3D from "@/components/ParticleTunnel3D";
 import { useCinematicScroll } from "@/hooks/useCinematicScroll";
+
+const TechDimensionPortal = dynamic(
+  () => import("@/components/TechDimensionPortal"),
+  {
+    ssr: false,
+    loading: () => (
+      <div
+        style={{
+          height: "100vh",
+          width: "100vw",
+          background: "#020409",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          fontFamily: "var(--font-fira-code), Fira Code, monospace",
+          color: "#00D4FF",
+          fontSize: "12px",
+          letterSpacing: "0.2em",
+          zIndex: 999,
+        }}
+      >
+        <span className="animate-pulse">INITIALIZING TECH DIMENSION PORTAL...</span>
+      </div>
+    ),
+  }
+);
 
 function PortfolioContent() {
   useCinematicScroll();
@@ -39,7 +66,7 @@ function PortfolioContent() {
         <SectionSeparator />
         <ProjectsCinematic />
         <SectionSeparator />
-        <AIReactor />
+        <TechDimensionPortal />
         <SectionSeparator />
         <Skills />
         <SectionSeparator />
