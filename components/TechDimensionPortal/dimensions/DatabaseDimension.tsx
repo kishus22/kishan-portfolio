@@ -2,7 +2,7 @@
 
 import { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
-import { Html } from "@react-three/drei";
+import { Html, Line } from "@react-three/drei";
 import * as THREE from "three";
 
 interface MonolithProps {
@@ -251,20 +251,19 @@ export default function DatabaseDimension() {
       />
 
       {/* Golden Data Beams connections */}
-      {[m1Pos, m2Pos, m3Pos].map((pos, idx) => {
-        const points = [sunPos, pos];
-        const geom = new THREE.BufferGeometry().setFromPoints(points);
-        return (
-          <line key={idx} geometry={geom}>
-            <lineBasicMaterial
-              color="#FFD700"
-              transparent
-              opacity={0.15}
-              depthWrite={false}
-            />
-          </line>
-        );
-      })}
+{[m1Pos, m2Pos, m3Pos].map((pos, idx) => (
+  <Line
+    key={idx}
+    points={[
+      [sunPos.x, sunPos.y, sunPos.z],
+      [pos.x, pos.y, pos.z],
+    ]}
+    color="#FFD700"
+    transparent
+    opacity={0.15}
+    lineWidth={1}
+  />
+))}
 
       {/* Golden Waving Information Ocean at bottom */}
       <GoldenInformationOcean />

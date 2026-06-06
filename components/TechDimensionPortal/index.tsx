@@ -103,9 +103,12 @@ function PortalTimelineController({
 
     // Initial camera position & lock targets
     camera.position.set(0, 0, 8);
-    camera.lookAt(0, 0, -4);
-    camera.fov = 70;
-    camera.updateProjectionMatrix();
+camera.lookAt(0, 0, -4);
+
+if ("fov" in camera) {
+  camera.fov = 70;
+  camera.updateProjectionMatrix();
+}
 
     // Reset fog initially
     if (targetScene && targetScene.fog && targetScene.fog instanceof THREE.Fog) {
