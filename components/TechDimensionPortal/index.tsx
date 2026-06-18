@@ -12,6 +12,7 @@ import SpaceDebris from "./layers/SpaceDebris";
 import EnergyRivers from "./layers/EnergyRivers";
 import FarStarStreaks from "./layers/FarStarStreaks";
 import TunnelRings from "./layers/TunnelRings";
+import WormholeTunnel from "./layers/WormholeTunnel";
 import HubScene from "./HubScene";
 import ForegroundParticles from "./layers/ForegroundParticles";
 
@@ -103,12 +104,13 @@ function PortalTimelineController({
 
     // Initial camera position & lock targets
     camera.position.set(0, 0, 8);
-camera.lookAt(0, 0, -4);
+    camera.lookAt(0, 0, -4);
 
-if ("fov" in camera) {
-  camera.fov = 70;
-  camera.updateProjectionMatrix();
-}
+    const perspCam = camera as THREE.PerspectiveCamera;
+    if (perspCam.fov !== undefined) {
+      perspCam.fov = 70;
+      perspCam.updateProjectionMatrix();
+    }
 
     // Reset fog initially
     if (targetScene && targetScene.fog && targetScene.fog instanceof THREE.Fog) {
@@ -141,11 +143,11 @@ if ("fov" in camera) {
     }, 0.45);
 
     // FOV lens pinch: camera zooms in, narrowing FOV to 52
-    tl.to(camera, {
+    tl.to(camera as THREE.PerspectiveCamera, {
       fov: 52,
       duration: 0.5,
       ease: "power2.in",
-      onUpdate: () => camera.updateProjectionMatrix(),
+      onUpdate: () => (camera as THREE.PerspectiveCamera).updateProjectionMatrix(),
     }, 0.45);
 
     // Shake increases as camera enters portal threshold
@@ -159,11 +161,11 @@ if ("fov" in camera) {
     }, 0.95);
 
     // FOV wide-warp stretch: FOV explodes from 52 to 120 (wide warp space distortion)
-    tl.to(camera, {
+    tl.to(camera as THREE.PerspectiveCamera, {
       fov: 120,
       duration: 0.65,
       ease: "power3.in",
-      onUpdate: () => camera.updateProjectionMatrix(),
+      onUpdate: () => (camera as THREE.PerspectiveCamera).updateProjectionMatrix(),
     }, 0.95);
 
     // Extreme camera shake during warp flight
@@ -202,11 +204,11 @@ if ("fov" in camera) {
       ease: "power2.out",
     }, 1.7);
 
-    tl.to(camera, {
+    tl.to(camera as THREE.PerspectiveCamera, {
       fov: 70,
       duration: 0.8,
       ease: "power2.out",
-      onUpdate: () => camera.updateProjectionMatrix(),
+      onUpdate: () => (camera as THREE.PerspectiveCamera).updateProjectionMatrix(),
     }, 1.7);
 
     if (flashRef.current) {
@@ -239,11 +241,11 @@ if ("fov" in camera) {
     tl.to(cameraShakeRef.current, { value: 0.75, duration: 0.5 }, 0.0);
 
     // FOV wide-stretch exit effect
-    tl.to(camera, {
+    tl.to(camera as THREE.PerspectiveCamera, {
       fov: 100,
       duration: 0.5,
       ease: "power2.in",
-      onUpdate: () => camera.updateProjectionMatrix(),
+      onUpdate: () => (camera as THREE.PerspectiveCamera).updateProjectionMatrix(),
     }, 0.0);
 
     // Fog rolls in
@@ -277,11 +279,11 @@ if ("fov" in camera) {
       ease: "power2.out",
     }, 0.55);
 
-    tl.to(camera, {
+    tl.to(camera as THREE.PerspectiveCamera, {
       fov: 70,
       duration: 0.75,
       ease: "power2.out",
-      onUpdate: () => camera.updateProjectionMatrix(),
+      onUpdate: () => (camera as THREE.PerspectiveCamera).updateProjectionMatrix(),
     }, 0.55);
 
     if (flashRef.current) {
@@ -414,6 +416,12 @@ export default function TechDimensionPortal() {
 
           {/* Layer 7: Concentric stacked tunnel rings */}
           <TunnelRings speed={traveling ? tunnelSpeedRef.current.value * 0.8 : 1.0} />
+
+          {/* Wormhole Tunnel (active only during warp travel) */}
+          <WormholeTunnel
+            speed={tunnelSpeedRef.current.value}
+            active={traveling}
+          />
 
           {/* Hub portal and Nodes (Only render when not deep in a sub-dimension) */}
           {!activeDimension && (
