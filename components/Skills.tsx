@@ -129,13 +129,20 @@ function SkillCard({ cat, index }: { cat: SkillCategory; index: number }) {
   const dots = useMemo(() => {
     return Array.from({ length: 6 }).map((_, i) => {
       const seed = index * 30 + i * 5;
+      const size = seededRandom(seed) * 2 + 1;
+      const xVal = seededRandom(seed + 1) * 80 + 10;
+      const yVal = seededRandom(seed + 2) * 80 + 10;
+      const opacity = seededRandom(seed + 3) * 0.5 + 0.15;
       return {
         id: i,
-        size: seededRandom(seed) * 2 + 1,
-        x: seededRandom(seed + 1) * 80 + 10,
-        y: seededRandom(seed + 2) * 80 + 10,
-        duration: seededRandom(seed + 3) * 4 + 4,
-        delay: seededRandom(seed + 4) * -6,
+        // Format to fixed-precision strings so server & client render identically
+        size: `${size.toFixed(4)}px`,
+        x: `${xVal.toFixed(4)}%`,
+        y: `${yVal.toFixed(4)}%`,
+        opacity: parseFloat(opacity.toFixed(4)),
+        duration: parseFloat((seededRandom(seed + 3) * 4 + 4).toFixed(4)),
+        delay: parseFloat((seededRandom(seed + 4) * -6).toFixed(4)),
+        animX: parseFloat(((seededRandom(index * 30 + i * 5 + 10) * 10 - 5)).toFixed(4)),
       };
     });
   }, [index]);
@@ -179,17 +186,18 @@ function SkillCard({ cat, index }: { cat: SkillCategory; index: number }) {
             key={dot.id}
             className="absolute rounded-full"
             style={{
-              left: `${dot.x}%`,
-              top: `${dot.y}%`,
+              left: dot.x,
+              top: dot.y,
               width: dot.size,
               height: dot.size,
               backgroundColor: cat.color,
               filter: `drop-shadow(0 0 6px ${cat.color})`,
+              opacity: dot.opacity,
             }}
             animate={{
               y: [0, -30, 0],
-              x: [0, (seededRandom(index * 30 + dot.id * 5 + 10) * 10 - 5), 0],
-              opacity: [0.15, 0.85, 0.15],
+              x: [0, dot.animX, 0],
+              opacity: [dot.opacity, Math.min(dot.opacity * 2.5, 1), dot.opacity],
               scale: [1, 1.25, 1],
             }}
             transition={{
@@ -281,17 +289,24 @@ export default function Skills() {
     });
   };
 
-  // Generate deterministic parallax background stars
+  // Generate deterministic parallax background stars — fixed-precision to prevent hydration mismatch
   const backgroundStars = useMemo(() => {
     return Array.from({ length: 24 }).map((_, i) => {
       const seed = i * 15;
+      const size = seededRandom(seed) * 2 + 0.8;
+      const xVal = seededRandom(seed + 1) * 100;
+      const yVal = seededRandom(seed + 2) * 100;
+      const opacity = seededRandom(seed + 3) * 0.4 + 0.2;
+      const duration = seededRandom(seed + 4) * 3 + 2;
       return {
         id: i,
-        size: seededRandom(seed) * 2 + 0.8,
-        x: seededRandom(seed + 1) * 100,
-        y: seededRandom(seed + 2) * 100,
-        opacity: seededRandom(seed + 3) * 0.4 + 0.2,
-        duration: seededRandom(seed + 4) * 3 + 2,
+        // Fixed-precision strings guarantee identical SSR and client render
+        size: `${size.toFixed(4)}px`,
+        x: `${xVal.toFixed(4)}%`,
+        y: `${yVal.toFixed(4)}%`,
+        opacity: parseFloat(opacity.toFixed(6)),
+        opacityDim: parseFloat((opacity * 0.3).toFixed(6)),
+        duration: parseFloat(duration.toFixed(4)),
       };
     });
   }, []);
@@ -324,14 +339,14 @@ export default function Skills() {
             key={star.id}
             className="absolute rounded-full bg-cyan-400/30"
             style={{
-              left: `${star.x}%`,
-              top: `${star.y}%`,
+              left: star.x,
+              top: star.y,
               width: star.size,
               height: star.size,
               opacity: star.opacity,
             }}
             animate={{
-              opacity: [star.opacity, star.opacity * 0.3, star.opacity],
+              opacity: [star.opacity, star.opacityDim, star.opacity],
             }}
             transition={{
               duration: star.duration,
