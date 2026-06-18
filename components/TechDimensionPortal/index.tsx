@@ -13,6 +13,7 @@ import EnergyRivers from "./layers/EnergyRivers";
 import FarStarStreaks from "./layers/FarStarStreaks";
 import TunnelRings from "./layers/TunnelRings";
 import WormholeTunnel from "./layers/WormholeTunnel";
+import AmbientPulseRings from "./layers/AmbientPulseRings";
 import HubScene from "./HubScene";
 import ForegroundParticles from "./layers/ForegroundParticles";
 
@@ -387,13 +388,13 @@ export default function TechDimensionPortal() {
           camera={{ position: [0, 0, 8], fov: 70, near: 0.1, far: 500 }}
           style={{ width: "100%", height: "100vh" }}
           gl={{
-            antialias: false,
+            antialias: !isMobile,
             alpha: false,
             powerPreference: "high-performance",
             toneMapping: THREE.ACESFilmicToneMapping,
             toneMappingExposure: 1.25,
           }}
-          dpr={[1, 1.5]}
+          dpr={isMobile ? [0.8, 1.0] : [1, 1.5]}
           frameloop="always"
         >
           <fog attach="fog" args={["#020409", 25, 120]} />
@@ -405,23 +406,29 @@ export default function TechDimensionPortal() {
           {/* Layer 9: Volumetric Nebula Clouds */}
           <NebulaClouds speed={traveling ? tunnelSpeedRef.current.value : 1.0} />
 
-          {/* Layer 8.5: Space Debris field */}
-          <SpaceDebris />
+          {/* Layer 8.5: Space Debris field (desktop only) */}
+          {!isMobile && <SpaceDebris />}
 
-          {/* Layer 8.2: Flowing cosmic Energy Rivers */}
-          <EnergyRivers />
+          {/* Layer 8.2: Flowing cosmic Energy Rivers (desktop only) */}
+          {!isMobile && <EnergyRivers />}
 
-          {/* Layer 8: Distance Star streaks */}
-          <FarStarStreaks speed={traveling ? tunnelSpeedRef.current.value : 0.05} />
+          {/* Layer 8: Distance Star streaks (desktop only) */}
+          {!isMobile && <FarStarStreaks speed={traveling ? tunnelSpeedRef.current.value : 0.05} />}
 
           {/* Layer 7: Concentric stacked tunnel rings */}
           <TunnelRings speed={traveling ? tunnelSpeedRef.current.value * 0.8 : 1.0} />
 
-          {/* Wormhole Tunnel (active only during warp travel) */}
-          <WormholeTunnel
-            speed={tunnelSpeedRef.current.value}
-            active={traveling}
-          />
+          {/* Ambient Sonar Pulse Rings from Portal Core */}
+          {!activeDimension && <AmbientPulseRings />}
+
+          {/* Wormhole Tunnel (active only during warp travel, desktop only) */}
+          {!isMobile && (
+            <WormholeTunnel
+              speed={tunnelSpeedRef.current.value}
+              active={traveling}
+              speedRef={tunnelSpeedRef}
+            />
+          )}
 
           {/* Hub portal and Nodes (Only render when not deep in a sub-dimension) */}
           {!activeDimension && (

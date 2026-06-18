@@ -76,45 +76,42 @@ function NodeConnectionWeb() {
 }
 
 // ─── Live Data Packet flowing between nodes ────────────────────────────────
-function NodeDataPackets() {
-  const packetRefs = [
-    useRef<THREE.Mesh>(null),
-    useRef<THREE.Mesh>(null),
-    useRef<THREE.Mesh>(null),
-  ];
+const PACKET_ROUTES = [
+  { from: 0, to: 1 },
+  { from: 2, to: 4 },
+  { from: 5, to: 3 },
+];
+const PACKET_COLORS = ["#00D4FF", "#00FF88", "#FFD700"];
 
+function NodeDataPackets() {
+  const groupRef = useRef<THREE.Group>(null);
   const nodePositions = useMemo(() => DIMENSIONS.map((d) => new THREE.Vector3(...d.pos)), []);
-  const routes = useMemo(() => [
-    { from: 0, to: 1 },
-    { from: 2, to: 4 },
-    { from: 5, to: 3 },
-  ], []);
 
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
-    packetRefs.forEach((ref, idx) => {
-      if (!ref.current) return;
-      const route = routes[idx];
+    if (!groupRef.current) return;
+    groupRef.current.children.forEach((child, idx) => {
+      const mesh = child as THREE.Mesh;
+      const route = PACKET_ROUTES[idx];
+      if (!route) return;
       const progress = (t * 0.35 + idx * 0.33) % 1.0;
-      ref.current.position.lerpVectors(
+      mesh.position.lerpVectors(
         nodePositions[route.from % nodePositions.length],
         nodePositions[route.to % nodePositions.length],
         progress
       );
       const scale = 0.8 + Math.sin(t * 6 + idx) * 0.2;
-      ref.current.scale.setScalar(scale);
+      mesh.scale.setScalar(scale);
     });
   });
 
-  const packetColors = ["#00D4FF", "#00FF88", "#FFD700"];
-
   return (
-    <group>
-      {packetRefs.map((ref, i) => (
-        <mesh key={i} ref={ref}>
+    <group ref={groupRef}>
+      {PACKET_ROUTES.map((_, i) => (
+        <mesh key={i}>
           <sphereGeometry args={[0.06, 8, 8]} />
           <meshBasicMaterial
-            color={packetColors[i]}
+            color={PACKET_COLORS[i]}
             blending={THREE.AdditiveBlending}
             depthWrite={false}
           />

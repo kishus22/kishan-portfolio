@@ -1,27 +1,25 @@
 "use client";
 
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
 interface WormholeTunnelProps {
   speed: number;
   active: boolean;
+  speedRef?: React.MutableRefObject<{ value: number }>;
 }
 
 /**
- * WormholeTunnel — A dense cylindrical wormhole tunnel rendered as two layers:
- * 1. 60 concentric animated torus rings that fly toward the camera (warp tunnel)
- * 2. 1200 lightning-streak particles shooting past in radial lines from center
- *
- * Activated only during warp travel (active=true). Ring opacity and speed scale
- * dynamically with the `speed` prop fed from GSAP tunnelSpeedRef.
+ * WormholeTunnel — Dense cylindrical wormhole rendered during warp travel.
+ * - 60 concentric torus rings flying toward camera
+ * - 1200 radial lightning-streak particles
+ * Reads speed from speedRef.current.value each frame for live GSAP values.
  */
-export default function WormholeTunnel({ speed, active }: WormholeTunnelProps) {
+export default function WormholeTunnel({ active, speedRef }: WormholeTunnelProps) {
   const ringGroupRef = useRef<THREE.Group>(null);
   const streakRef = useRef<THREE.Points>(null);
 
-  // Generate 60 tunnel rings with staggered depth
   const rings = useMemo(() => {
     const colors = [
       "#00D4FF", "#7B2FFF", "#00FF88", "#FF6B35", "#FFD700",
@@ -36,17 +34,16 @@ export default function WormholeTunnel({ speed, active }: WormholeTunnelProps) {
     }));
   }, []);
 
-  // Generate radial lightning streak particles
   const { streakPositions, streakColors } = useMemo(() => {
     const count = 1200;
     const pos = new Float32Array(count * 3);
     const col = new Float32Array(count * 3);
     const palette = [
-      [0.0, 0.83, 1.0],  // Cyan
-      [0.48, 0.18, 1.0], // Purple
-      [0.0, 1.0, 0.53],  // Green
-      [1.0, 0.42, 0.21], // Orange
-      [1.0, 0.85, 0.0],  // Gold
+      [0.0, 0.83, 1.0],
+      [0.48, 0.18, 1.0],
+      [0.0, 1.0, 0.53],
+      [1.0, 0.42, 0.21],
+      [1.0, 0.85, 0.0],
     ];
     for (let i = 0; i < count; i++) {
       const angle = (i / count) * Math.PI * 2 + Math.random() * 0.3;
@@ -71,28 +68,24 @@ export default function WormholeTunnel({ speed, active }: WormholeTunnelProps) {
 
   useFrame((state, delta) => {
     if (!active) return;
+    // Read live speed from ref (GSAP mutates this directly, no re-renders needed)
+    const liveSpeed = speedRef ? speedRef.current.value : 1;
     const dtFactor = delta * 60;
-    const warpMultiplier = Math.max(1, speed);
+    const warpMultiplier = Math.max(1, liveSpeed);
 
-    // Animate rings flying toward camera
     if (ringGroupRef.current) {
       ringGroupRef.current.children.forEach((child, i) => {
         const mesh = child as THREE.Mesh;
         const ring = rings[i];
         if (!mesh || !ring) return;
 
-        // Move ring forward
-        mesh.position.z += warpMultiplier * ring.rotSpeed * 60 * dtFactor;
-
-        // Spin rings
+        mesh.position.z += warpMultiplier * 0.45 * dtFactor;
         mesh.rotation.z += ring.rotSpeed * dtFactor * warpMultiplier;
 
-        // Reset when it passes camera
         if (mesh.position.z > 8) {
           mesh.position.z = -300 - Math.random() * 100;
         }
 
-        // Update opacity
         const mat = mesh.material as THREE.MeshBasicMaterial;
         if (mat) {
           const baseOpacity = ring.opacity * Math.min(1, warpMultiplier / 5);
@@ -101,15 +94,14 @@ export default function WormholeTunnel({ speed, active }: WormholeTunnelProps) {
       });
     }
 
-    // Animate streak particles flying toward camera
     if (streakRef.current) {
       const geo = streakRef.current.geometry;
       const posArr = geo.attributes.position.array as Float32Array;
       const count = posArr.length / 3;
-      const speed2 = warpMultiplier * 2.5 * dtFactor;
+      const s = warpMultiplier * 2.5 * dtFactor;
 
       for (let i = 0; i < count; i++) {
-        posArr[i * 3 + 2] += speed2;
+        posArr[i * 3 + 2] += s;
         if (posArr[i * 3 + 2] > 10) {
           const angle = Math.random() * Math.PI * 2;
           const r = 1.5 + Math.random() * 18;
@@ -126,7 +118,6 @@ export default function WormholeTunnel({ speed, active }: WormholeTunnelProps) {
 
   return (
     <group>
-      {/* Tunnel Torus Rings */}
       <group ref={ringGroupRef}>
         {rings.map((ring, i) => (
           <mesh
@@ -146,7 +137,6 @@ export default function WormholeTunnel({ speed, active }: WormholeTunnelProps) {
         ))}
       </group>
 
-      {/* Radial Lightning Streak Particles */}
       <points ref={streakRef} geometry={streakGeom}>
         <pointsMaterial
           size={0.12}
